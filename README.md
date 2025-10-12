@@ -133,4 +133,35 @@ Express.js 서버 구축 및 데이터 영속성 구현
 - 사용자 데이터의 안전한 저장 및 관리
 - RESTful API를 통한 클라이언트-서버 통신
 - 사용자 인증 및 개인화 기능 추가
-- 데이터베이스 연동 및 백업 시스템 구축 
+- - 데이터베이스 연동 및 백업 시스템 구축
+
+## 🌲 Git Workflow & Branch Strategy
+
+### Branch Strategy
+```
+main
+├── develop                    # 개발 통합 브랜치
+├── feature/timer-ui          # 타이머 UI 구현
+├── feature/task-management   # 할일 관리 기능
+├── feature/statistics        # 통계 화면
+└── feature/settings          # 설정 기능
+```
+
+### Workflow
+1. **main**: 배포 가능한 안정적인 코드
+2. **develop**: 개발 중인 기능들을 통합하는 브랜치
+3. **feature/**: 개별 기능 개발 브랜치
+   - `feature/timer-ui`: 뽀모도로 타이머 관련 작업
+   - `feature/task-management`: 할일 목록 기능
+   - `feature/statistics`: 통계 및 차트 기능
+
+### Commit Convention
+
+#### 🏷️ Type
+- `feat`: 새로운 기능 추가
+- `fix`: 버그 수정
+- `docs`: 문서 수정
+- `style`: 코드 스타일 변경 (기능 변경 없음)
+- `refactor`: 코드 리팩토링
+- `test`: 테스트 코드 추가/수정
+- `chore`: 빌드 설정, 패키지 관리 등
