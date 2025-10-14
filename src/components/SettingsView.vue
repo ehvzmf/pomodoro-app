@@ -1,10 +1,11 @@
 <template>
   <div class="min-h-screen bg-gray-50 p-6 pb-20">
-    <!-- 헤더 -->
-    <header class="text-center mb-8">
-      <h1 class="text-3xl font-bold text-gray-800 mb-2">⚙️ Settings</h1>
-      <p class="text-gray-600">Customize your pomodoro experience</p>
-    </header>
+    <div class="max-w-md mx-auto">
+      <!-- 헤더 -->
+      <header class="text-center mb-8">
+        <h1 class="text-3xl font-bold text-gray-800 mb-2">⚙️ Settings</h1>
+        <p class="text-gray-600">Customize your pomodoro experience</p>
+      </header>
 
     <!-- 타이머 설정 -->
     <div class="bg-white rounded-2xl shadow-lg p-6 mb-6">
@@ -172,14 +173,15 @@
       </div>
     </div>
 
-    <!-- 저장 버튼 -->
-    <div class="text-center">
-      <button 
-        @click="saveSettings"
-        class="bg-red-500 text-white px-8 py-3 rounded-lg font-medium hover:bg-red-600 transition-colors"
-      >
-        Save Settings
-      </button>
+      <!-- 저장 버튼 -->
+      <div class="text-center">
+        <button 
+          @click="saveSettings"
+          class="bg-red-500 text-white px-8 py-3 rounded-lg font-medium hover:bg-red-600 transition-colors"
+        >
+          Save Settings
+        </button>
+      </div>
     </div>
   </div>
 </template>

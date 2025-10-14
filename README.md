@@ -57,7 +57,7 @@ A modern web-based Pomodoro timer application built with Vue.js and Tailwind CSS
 
 ### Prerequisites
 - Node.js (v16 or higher)
-- npm or yarn package manager
+- pnpm package manager (권장) 또는 npm
 
 ### Installation
 ```bash
@@ -68,19 +68,40 @@ git clone https://github.com/ehvzmf/pomodoro-app.git
 cd pomodoro-app
 
 # Install dependencies
-npm install
+pnpm install
+# 또는 npm install
 
 # Start development server
-npm run dev
+pnpm run dev
+# 또는 npm run dev
 ```
+
+### Tailwind CSS Setup (pnpm 환경)
+```bash
+# 1. Tailwind CSS v3 및 관련 패키지 설치
+pnpm add -D tailwindcss@^3.4.0 postcss autoprefixer
+
+# 2. Tailwind 설정 파일 생성 (npx 대신 pnpm dlx 사용)
+pnpm dlx tailwindcss init -p
+
+# 만약 pnpm dlx가 안 되면 수동으로 파일 생성
+# tailwind.config.js와 postcss.config.js 파일을 직접 만들기
+```
+
+#### 주의사항 ⚠️
+- pnpm 환경에서는 `npx` 대신 `pnpm dlx` 사용
+- Tailwind CSS v4는 PostCSS 플러그인이 변경되어 호환성 문제 발생 가능
+- 안정성을 위해 **v3.4.x 버전 사용 권장**
 
 ### Build for Production
 ```bash
 # Build the application
-npm run build
+pnpm run build
+# 또는 npm run build
 
 # Preview the production build
-npm run preview
+pnpm run preview
+# 또는 npm run preview
 ```
 
 ## 📁 Project Structure
