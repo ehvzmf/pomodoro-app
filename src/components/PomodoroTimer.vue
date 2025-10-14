@@ -1,5 +1,5 @@
 <template>
-  <div class="flex flex-col items-center justify-center min-h-screen bg-gray-50 p-6">
+  <div class="flex flex-col items-center justify-center min-h-screen bg-gray-50 p-6 pb-20">
     <!-- 헤더 -->
     <header class="text-center mb-8">
       <h1 class="text-4xl font-bold text-gray-800 mb-2">🍅 Pomodoro Timer</h1>
