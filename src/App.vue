@@ -1,38 +1,25 @@
 <script setup>
-import { ref } from 'vue'
-import PomodoroTimer from './components/PomodoroTimer.vue'
-import StatisticsView from './components/StatisticsView.vue'
-import SettingsView from './components/SettingsView.vue'
+import { computed } from 'vue'
+import { useRoute } from 'vue-router'
 import BottomNavigation from './components/BottomNavigation.vue'
 
-// 현재 활성 탭
-const currentTab = ref('home')
+// 현재 라우트 정보 가져오기
+const route = useRoute()
 
-// 탭 변경 핸들러
-const handleTabChange = (tab) => {
-  currentTab.value = tab
-}
+// 현재 탭을 라우트 이름으로 계산
+const currentTab = computed(() => route.name || 'home')
 </script>
 
 <template>
   <div id="app">
     <!-- 메인 콘텐츠 영역 -->
-    <main class="pb-16"> <!-- 하단 네비게이션 공간 확보 -->
-      <!-- 홈 화면 -->
-      <PomodoroTimer v-if="currentTab === 'home'" />
-      
-      <!-- 통계 화면 -->
-      <StatisticsView v-else-if="currentTab === 'statistics'" />
-      
-      <!-- 설정 화면 -->
-      <SettingsView v-else-if="currentTab === 'settings'" />
+    <main class="pb-16">
+      <!-- RouterView가 현재 라우트에 맞는 컴포넌트를 렌더링 -->
+      <RouterView />
     </main>
 
     <!-- 하단 네비게이션 -->
-    <BottomNavigation 
-      :current-tab="currentTab" 
-      @tab-change="handleTabChange" 
-    />
+    <BottomNavigation :current-tab="currentTab" />
   </div>
 </template>
 

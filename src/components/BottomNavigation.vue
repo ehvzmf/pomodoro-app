@@ -3,8 +3,8 @@
     <div class="flex justify-around items-center max-w-md mx-auto">
       <!-- 홈 메뉴 -->
       <button 
-        @click="setActiveTab('home')"
-        :class="activeTab === 'home' ? 'text-red-500' : 'text-gray-500'"
+        @click="navigateTo('home')"
+        :class="currentTab === 'home' ? 'text-red-500' : 'text-gray-500'"
         class="flex flex-col items-center space-y-1 py-2 px-3 rounded-lg transition-colors duration-200 hover:bg-gray-50"
       >
         <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
@@ -15,8 +15,8 @@
 
       <!-- 통계 메뉴 -->
       <button 
-        @click="setActiveTab('statistics')"
-        :class="activeTab === 'statistics' ? 'text-red-500' : 'text-gray-500'"
+        @click="navigateTo('statistics')"
+        :class="currentTab === 'statistics' ? 'text-red-500' : 'text-gray-500'"
         class="flex flex-col items-center space-y-1 py-2 px-3 rounded-lg transition-colors duration-200 hover:bg-gray-50"
       >
         <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
@@ -27,8 +27,8 @@
 
       <!-- 설정 메뉴 -->
       <button 
-        @click="setActiveTab('settings')"
-        :class="activeTab === 'settings' ? 'text-red-500' : 'text-gray-500'"
+        @click="navigateTo('settings')"
+        :class="currentTab === 'settings' ? 'text-red-500' : 'text-gray-500'"
         class="flex flex-col items-center space-y-1 py-2 px-3 rounded-lg transition-colors duration-200 hover:bg-gray-50"
       >
         <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
@@ -41,9 +41,9 @@
 </template>
 
 <script setup>
-import { ref } from 'vue'
+import { useRouter } from 'vue-router'
 
-// Props와 Emits 정의
+// Props 정의
 const props = defineProps({
   currentTab: {
     type: String,
@@ -51,22 +51,19 @@ const props = defineProps({
   }
 })
 
-const emit = defineEmits(['tab-change'])
+// 라우터 인스턴스
+const router = useRouter()
 
-// 활성 탭 상태
-const activeTab = ref(props.currentTab)
-
-// 탭 변경 함수
-const setActiveTab = (tab) => {
-  activeTab.value = tab
-  emit('tab-change', tab)
+// 탭 변경 함수 (라우터로 이동)
+const navigateTo = (tab) => {
+  if (tab === 'home') {
+    router.push('/')
+  } else if (tab === 'statistics') {
+    router.push('/statistics')
+  } else if (tab === 'settings') {
+    router.push('/settings')
+  }
 }
-
-// props 변경 감지
-import { watch } from 'vue'
-watch(() => props.currentTab, (newTab) => {
-  activeTab.value = newTab
-})
 </script>
 
 <style scoped>
