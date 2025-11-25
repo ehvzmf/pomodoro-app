@@ -2,6 +2,7 @@ import { createRouter, createWebHistory } from 'vue-router'
 import PomodoroTimer from '../components/PomodoroTimer.vue'
 import StatisticsView from '../components/StatisticsView.vue'
 import SettingsView from '../components/SettingsView.vue'
+import PublishingShowcase from '../components/publishing/PublishingShowcase.vue'
 
 // 라우트 정의
 const routes = [
@@ -19,6 +20,11 @@ const routes = [
     path: '/settings',
     name: 'settings',
     component: SettingsView
+  },
+  {
+    path: '/publishing',
+    name: 'publishing',
+    component: PublishingShowcase
   }
 ]
 
