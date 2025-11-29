@@ -102,6 +102,143 @@
         </div>
       </section>
 
+      <!-- 체크박스 섹션 -->
+      <section class="showcase-section">
+        <h2 class="section-title">Checkboxes</h2>
+        
+        <div class="checkbox-demo">
+          <h3 class="demo-subtitle">단일 체크박스</h3>
+          <BaseCheckbox
+            id="terms"
+            v-model="formData.agreeTerms"
+            label="이용약관에 동의합니다"
+            :required="true"
+          />
+          <BaseCheckbox
+            id="marketing"
+            v-model="formData.agreeMarketing"
+            label="마케팅 정보 수신에 동의합니다"
+          />
+          <BaseCheckbox
+            id="disabled-check"
+            v-model="formData.disabledCheck"
+            label="비활성화된 체크박스"
+            :disabled="true"
+          />
+        </div>
+
+        <div class="checkbox-demo">
+          <h3 class="demo-subtitle">체크박스 그룹</h3>
+          <div class="checkbox-group">
+            <BaseCheckbox
+              id="hobby-1"
+              v-model="formData.hobbies"
+              value="reading"
+              label="독서"
+            />
+            <BaseCheckbox
+              id="hobby-2"
+              v-model="formData.hobbies"
+              value="music"
+              label="음악 감상"
+            />
+            <BaseCheckbox
+              id="hobby-3"
+              v-model="formData.hobbies"
+              value="sports"
+              label="운동"
+            />
+            <BaseCheckbox
+              id="hobby-4"
+              v-model="formData.hobbies"
+              value="travel"
+              label="여행"
+            />
+          </div>
+        </div>
+      </section>
+
+      <!-- 라디오 버튼 섹션 -->
+      <section class="showcase-section">
+        <h2 class="section-title">Radio Buttons</h2>
+        
+        <div class="radio-demo">
+          <h3 class="demo-subtitle">세로 배치</h3>
+          <div class="radio-group">
+            <BaseRadio
+              id="gender-male"
+              v-model="formData.gender"
+              name="gender"
+              value="male"
+              label="남성"
+              :required="true"
+            />
+            <BaseRadio
+              id="gender-female"
+              v-model="formData.gender"
+              name="gender"
+              value="female"
+              label="여성"
+            />
+            <BaseRadio
+              id="gender-other"
+              v-model="formData.gender"
+              name="gender"
+              value="other"
+              label="기타"
+            />
+          </div>
+        </div>
+
+        <div class="radio-demo">
+          <h3 class="demo-subtitle">가로 배치</h3>
+          <div class="radio-group radio-group--horizontal">
+            <BaseRadio
+              id="size-small"
+              v-model="formData.size"
+              name="size"
+              value="small"
+              label="Small"
+            />
+            <BaseRadio
+              id="size-medium"
+              v-model="formData.size"
+              name="size"
+              value="medium"
+              label="Medium"
+            />
+            <BaseRadio
+              id="size-large"
+              v-model="formData.size"
+              name="size"
+              value="large"
+              label="Large"
+            />
+          </div>
+        </div>
+
+        <div class="radio-demo">
+          <h3 class="demo-subtitle">비활성화</h3>
+          <div class="radio-group">
+            <BaseRadio
+              id="disabled-radio-1"
+              v-model="formData.disabledRadio"
+              name="disabled-radio"
+              value="option1"
+              label="옵션 1 (비활성화)"
+              :disabled="true"
+            />
+            <BaseRadio
+              id="disabled-radio-2"
+              v-model="formData.disabledRadio"
+              name="disabled-radio"
+              value="option2"
+              label="옵션 2"
+            />
+          </div>
+        </div>
+      </section>
+
       <!-- 스테퍼 섹션 -->
       <section class="showcase-section">
         <h2 class="section-title">Stepper</h2>
@@ -249,6 +386,8 @@ import { ref } from 'vue'
 import BaseButton from './BaseButton.vue'
 import BaseInput from './BaseInput.vue'
 import BaseSelect from './BaseSelect.vue'
+import BaseCheckbox from './BaseCheckbox.vue'
+import BaseRadio from './BaseRadio.vue'
 import BaseStepper from './BaseStepper.vue'
 import AuthModal from './AuthModal.vue'
 
@@ -260,7 +399,14 @@ const formData = ref({
   readonly: '읽기 전용 텍스트',
   country: '',
   city: '',
-  disabledSelect: 'korea'
+  disabledSelect: 'korea',
+  agreeTerms: false,
+  agreeMarketing: false,
+  disabledCheck: true,
+  hobbies: [],
+  gender: '',
+  size: 'medium',
+  disabledRadio: 'option2'
 })
 
 const emailError = ref(false)
@@ -410,6 +556,20 @@ const handleSubmit = () => {
   &:last-child {
     margin-bottom: 0;
   }
+}
+
+.demo-subtitle {
+  font-size: 0.95rem;
+  color: $gray-600;
+  margin-bottom: $spacing-sm;
+  font-weight: 600;
+}
+
+.checkbox-demo,
+.radio-demo {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-lg;
 }
 
 .form-grid {
