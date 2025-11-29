@@ -7,7 +7,7 @@
     >
       <div :class="['stepper__step', getStepClass(index)]">
         <span v-if="index < currentStep" class="stepper__check">✓</span>
-        <span v-else class="stepper__number">{{ index + 1 }}</span>
+        <span v-else-if="index > currentStep" class="stepper__number">{{ index + 1 }}</span>
       </div>
       <div class="stepper__label">{{ step }}</div>
       <div v-if="index < steps.length - 1" class="stepper__line" :class="{ 'stepper__line--active': index < currentStep }"></div>
@@ -86,10 +86,10 @@ const getStepClass = (index) => {
   }
 
   &--active {
-    border: 2px solid $primary-color;
-    background: $primary-color;
+    border: 2px solid $secondary-color;
+    background: $secondary-color;
     color: $white;
-    box-shadow: 0 0 0 4px rgba($primary-color, 0.1);
+    box-shadow: 0 0 0 4px rgba($secondary-color, 0.1);
   }
 
   &--completed {

@@ -244,7 +244,7 @@
         <h2 class="section-title">Stepper</h2>
         
         <BaseStepper 
-          :steps="['정보 입력', '인증', '완료']"
+          :steps="['정보 입력', '본인 인증', '약관 동의', '결제', '완료']"
           :current-step="currentStep"
         />
 
@@ -258,7 +258,7 @@
           </BaseButton>
           <BaseButton 
             @click="nextStep"
-            :disabled="currentStep === 2"
+            :disabled="currentStep === 4"
           >
             다음
           </BaseButton>
@@ -431,7 +431,7 @@ const cityOptions = [
 const currentStep = ref(1)
 
 const nextStep = () => {
-  if (currentStep.value < 2) {
+  if (currentStep.value < 4) {
     currentStep.value++
   }
 }
