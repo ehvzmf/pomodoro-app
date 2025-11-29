@@ -507,51 +507,88 @@ const handleSubmit = () => {
 .publishing-showcase {
   min-height: 100vh;
   background: $gray-50;
-  padding: $spacing-2xl $spacing-md;
+  padding: $spacing-md;
   padding-bottom: 100px; // 하단 네비게이션 공간
+
+  @include desktop {
+    padding: $spacing-2xl;
+  }
 }
 
 .container {
-  max-width: 800px;
+  max-width: 100%;
   margin: 0 auto;
+
+  @include desktop {
+    max-width: 1200px;
+  }
 }
 
 .showcase-header {
   text-align: center;
-  margin-bottom: $spacing-2xl;
+  margin-bottom: $spacing-lg;
+
+  @include desktop {
+    margin-bottom: $spacing-2xl;
+  }
 }
 
 .showcase-title {
-  font-size: $font-size-2xl;
+  font-size: $font-size-xl;
   font-weight: 700;
   color: $gray-800;
   margin-bottom: $spacing-sm;
+
+  @include desktop {
+    font-size: $font-size-2xl;
+  }
 }
 
 .showcase-description {
-  font-size: $font-size-base;
+  font-size: $font-size-sm;
   color: $gray-600;
+
+  @include desktop {
+    font-size: $font-size-base;
+  }
 }
 
 .showcase-section {
   @include card;
-  margin-bottom: $spacing-xl;
+  margin-bottom: $spacing-md;
+  padding: $spacing-md;
+
+  @include desktop {
+    margin-bottom: $spacing-xl;
+    padding: $spacing-lg;
+  }
 }
 
 .section-title {
-  font-size: $font-size-xl;
+  font-size: $font-size-lg;
   font-weight: 600;
   color: $gray-800;
-  margin-bottom: $spacing-lg;
-  padding-bottom: $spacing-md;
+  margin-bottom: $spacing-md;
+  padding-bottom: $spacing-sm;
   border-bottom: 2px solid $gray-200;
+
+  @include desktop {
+    font-size: $font-size-xl;
+    margin-bottom: $spacing-lg;
+    padding-bottom: $spacing-md;
+  }
 }
 
 .button-grid {
   display: flex;
   flex-wrap: wrap;
-  gap: $spacing-md;
-  margin-bottom: $spacing-md;
+  gap: $spacing-sm;
+  margin-bottom: $spacing-sm;
+
+  @include desktop {
+    gap: $spacing-md;
+    margin-bottom: $spacing-md;
+  }
 
   &:last-child {
     margin-bottom: 0;
@@ -559,42 +596,84 @@ const handleSubmit = () => {
 }
 
 .demo-subtitle {
-  font-size: 0.95rem;
+  font-size: 0.875rem;
   color: $gray-600;
-  margin-bottom: $spacing-sm;
+  margin-bottom: $spacing-xs;
   font-weight: 600;
+
+  @include desktop {
+    font-size: 0.95rem;
+    margin-bottom: $spacing-sm;
+  }
 }
 
 .checkbox-demo,
 .radio-demo {
   display: flex;
   flex-direction: column;
-  gap: $spacing-lg;
+  gap: $spacing-md;
+
+  @include desktop {
+    gap: $spacing-lg;
+  }
+
+  .checkbox-group,
+  .radio-group {
+    display: grid;
+    gap: $spacing-sm;
+
+    @include desktop {
+      grid-template-columns: repeat(2, 1fr);
+      gap: $spacing-md;
+    }
+  }
 }
 
 .form-grid {
   display: grid;
-  gap: $spacing-lg;
+  gap: $spacing-md;
+
+  @include desktop {
+    gap: $spacing-lg;
+    grid-template-columns: repeat(2, 1fr);
+  }
 }
 
 .button-group {
   display: flex;
-  gap: $spacing-md;
-  margin-top: $spacing-lg;
+  gap: $spacing-sm;
+  margin-top: $spacing-md;
   justify-content: center;
+  flex-wrap: wrap;
+
+  @include desktop {
+    gap: $spacing-md;
+    margin-top: $spacing-lg;
+    flex-wrap: nowrap;
+  }
 }
 
 .demo-form {
   @include card;
-  padding: $spacing-xl;
+  padding: $spacing-md;
   background: $gray-50;
+
+  @include desktop {
+    padding: $spacing-xl;
+  }
 }
 
 .form-step {
   display: grid;
-  gap: $spacing-lg;
-  margin: $spacing-xl 0;
-  min-height: 300px;
+  gap: $spacing-md;
+  margin: $spacing-md 0;
+  min-height: 250px;
+
+  @include desktop {
+    gap: $spacing-lg;
+    margin: $spacing-xl 0;
+    min-height: 300px;
+  }
 }
 
 .form-complete {
@@ -605,22 +684,37 @@ const handleSubmit = () => {
 }
 
 .complete-icon {
-  width: 80px;
-  height: 80px;
+  width: 60px;
+  height: 60px;
   @include flex-center;
   background: $secondary-color;
   color: $white;
   border-radius: 50%;
-  font-size: 3rem;
-  margin-bottom: $spacing-md;
+  font-size: 2rem;
+  margin-bottom: $spacing-sm;
+
+  @include desktop {
+    width: 80px;
+    height: 80px;
+    font-size: 3rem;
+    margin-bottom: $spacing-md;
+  }
 }
 
 .form-actions {
   display: flex;
-  gap: $spacing-md;
+  gap: $spacing-sm;
   justify-content: center;
-  margin-top: $spacing-xl;
-  padding-top: $spacing-xl;
+  margin-top: $spacing-md;
+  padding-top: $spacing-md;
   border-top: 1px solid $gray-200;
+  flex-wrap: wrap;
+
+  @include desktop {
+    gap: $spacing-md;
+    margin-top: $spacing-xl;
+    padding-top: $spacing-xl;
+    flex-wrap: nowrap;
+  }
 }
 </style>
