@@ -141,7 +141,7 @@ export default {
   border-radius: 50%;
   @include flex-center;
   transition: all $transition-base;
-  z-index: 1;
+  z-index: 2;
 
   &--pending {
     background: $gray-300;
@@ -191,6 +191,10 @@ export default {
   transition: background $transition-base;
   flex-shrink: 1;
   min-width: 0;
+  /* compensate the half-difference between item width (87px) and step size (80px)
+      so the line visually reaches the circle edge without gap */
+  margin-left: -3.5px;
+  margin-right: -3.5px;
 
   &--completed {
     background: $gray-500;
