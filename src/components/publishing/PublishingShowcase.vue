@@ -243,9 +243,16 @@
       <section class="showcase-section">
         <h2 class="section-title">Stepper</h2>
         
-        <BaseStepper 
-          :steps="['정보 입력', '본인 인증', '약관 동의', '결제', '완료']"
-          :current-step="currentStep"
+        <BaseStepIndicator
+          :tab-items="[
+            { tabTitle: '정보 입력', icon: 'system-select', component: null },
+            { tabTitle: '본인 인증', icon: 'auth-request', component: null },
+            { tabTitle: '약관 동의', icon: 'agree', component: null },
+            { tabTitle: '결제', icon: 'form', component: null },
+            { tabTitle: '완료', icon: 'complete', component: null }
+          ]"
+          :default-tab-index="currentStep"
+          @change-tab-idx="(idx) => { currentStep = idx }"
         />
 
         <div class="button-group">
@@ -390,6 +397,7 @@ import BaseCheckbox from './BaseCheckbox.vue'
 import BaseRadio from './BaseRadio.vue'
 import BaseStepper from './BaseStepper.vue'
 import AuthModal from './AuthModal.vue'
+import BaseStepIndicator from './BaseStepIndicator.vue'
 
 // 폼 데이터
 const formData = ref({
