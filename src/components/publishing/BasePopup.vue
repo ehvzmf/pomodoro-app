@@ -1,11 +1,11 @@
 <template>
   <teleport to="body">
-    <transition name="modal-fade">
-      <div v-if="isOpen" class="modal-overlay" @click="closeModal">
-        <div class="modal-container" @click.stop :style="containerStyle">
-          <div class="modal-header">
-            <h2 class="modal-title">{{ title }}</h2>
-            <button class="modal-close" @click="closeModal" aria-label="닫기">
+    <transition name="popup-fade">
+      <div v-if="isOpen" class="popup-overlay" @click="closePopup">
+        <div class="popup-container" @click.stop :style="containerStyle">
+          <div class="popup-header">
+            <h2 class="popup-title">{{ title }}</h2>
+            <button class="popup-close" @click="closePopup" aria-label="닫기">
               <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                 <line x1="18" y1="6" x2="6" y2="18"></line>
                 <line x1="6" y1="6" x2="18" y2="18"></line>
@@ -13,7 +13,7 @@
             </button>
           </div>
 
-          <div class="modal-content">
+          <div class="popup-content">
             <slot></slot>
           </div>
         </div>
@@ -24,7 +24,7 @@
 
 <script setup>
 import { watch, computed } from 'vue'
-import { modalSizes } from './modalConfig'
+import { popupSizes } from './popupConfig'
 
 const props = defineProps({
   isOpen: {
@@ -45,7 +45,7 @@ const emit = defineEmits(['close'])
 
 // apply CSS vars based on sizeKey
 const containerStyle = computed(() => {
-  const config = modalSizes[props.sizeKey] || modalSizes.medium
+  const config = popupSizes[props.sizeKey] || popupSizes.medium
   return {
     width: config.width,
     maxWidth: config.maxWidth,
@@ -54,7 +54,7 @@ const containerStyle = computed(() => {
   }
 })
 
-const closeModal = () => {
+const closePopup = () => {
   emit('close')
 }
 
@@ -69,7 +69,7 @@ watch(() => props.isOpen, (newVal) => {
 
 const handleEscape = (e) => {
   if (e.key === 'Escape') {
-    closeModal()
+    closePopup()
   }
 }
 </script>
@@ -78,7 +78,7 @@ const handleEscape = (e) => {
 @import '@/assets/styles/variables';
 @import '@/assets/styles/mixins';
 
-.modal-overlay {
+.popup-overlay {
   position: fixed;
   top: 0;
   left: 0;
@@ -90,7 +90,7 @@ const handleEscape = (e) => {
   padding: $spacing-md;
 }
 
-.modal-container {
+.popup-container {
   background: $white;
   border-radius: $radius-xl;
   box-shadow: $shadow-lg;
@@ -109,20 +109,20 @@ const handleEscape = (e) => {
   /* allow inline style overrides from containerStyle */
 }
 
-.modal-header {
+.popup-header {
   @include flex-between;
   padding: $spacing-lg;
   border-bottom: 1px solid $gray-200;
 }
 
-.modal-title {
+.popup-title {
   font-size: $font-size-xl;
   font-weight: 700;
   color: $gray-800;
   margin: 0;
 }
 
-.modal-close {
+.popup-close {
   @include button-reset;
   width: 32px;
   height: 32px;
@@ -137,27 +137,27 @@ const handleEscape = (e) => {
   }
 }
 
-.modal-content {
+.popup-content {
   padding: $spacing-lg;
   overflow-y: auto;
   flex: 1;
 }
 
 // 애니메이션
-.modal-fade-enter-active,
-.modal-fade-leave-active {
+.popup-fade-enter-active,
+.popup-fade-leave-active {
   transition: opacity $transition-base;
 
-  .modal-container {
+  .popup-container {
     transition: transform $transition-base;
   }
 }
 
-.modal-fade-enter-from,
-.modal-fade-leave-to {
+.popup-fade-enter-from,
+.popup-fade-leave-to {
   opacity: 0;
 
-  .modal-container {
+  .popup-container {
     transform: scale(0.9);
   }
 }

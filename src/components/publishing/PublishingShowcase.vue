@@ -5,6 +5,14 @@
       <header class="showcase-header">
         <h1 class="showcase-title">퍼블리싱 컴포넌트 쇼케이스</h1>
         <p class="showcase-description">SCSS로 구현된 재사용 가능한 UI 컴포넌트들</p>
+
+        <!-- 상단 팝업 액션 버튼 -->
+        <div class="header-actions">
+          <BaseButton size="sm" @click="openPopup('auth')">간편인증 팝업</BaseButton>
+          <BaseButton size="sm" variant="outline" @click="openPopup('demoSmall')">Small</BaseButton>
+          <BaseButton size="sm" variant="outline" @click="openPopup('demoMedium')">Medium</BaseButton>
+          <BaseButton size="sm" variant="outline" @click="openPopup('demoLarge')">Large</BaseButton>
+        </div>
       </header>
 
       <!-- 버튼 섹션 -->
@@ -275,7 +283,12 @@
       <!-- 팝업 섹션 -->
       <section class="showcase-section">
         <h2 class="section-title">Modal & Auth Grid</h2>
-        <BaseButton @click="openAuthModal">간편인증 팝업 열기</BaseButton>
+        <div class="button-grid">
+          <BaseButton @click="openPopup('auth')">간편인증 팝업 열기</BaseButton>
+          <BaseButton @click="openPopup('demoSmall')">Small</BaseButton>
+          <BaseButton @click="openPopup('demoMedium')">Medium</BaseButton>
+          <BaseButton @click="openPopup('demoLarge')">Large</BaseButton>
+        </div>
       </section>
 
       <!-- 완성된 폼 예시 -->
@@ -380,16 +393,29 @@
     </div>
 
     <!-- 인증 팝업 -->
-    <AuthModal 
+    <BasePopup 
       :is-open="isAuthModalOpen" 
+      :title="popupConfigs[activeModalKey].title"
+      :size-key="popupConfigs[activeModalKey].size"
       @close="closeAuthModal"
-      @select="handleAuthSelect"
-    />
+    >
+      <template v-if="popupConfigs[activeModalKey].size === 'auth'">
+        <AuthModalContent @select="(id) => { console.log('selected', id); closeAuthModal() }" />
+      </template>
+
+      <template v-else>
+        <div class="modal-demo-content">
+          <h3>{{ popupConfigs[activeModalKey].title }}</h3>
+          <p>여기에 샘플 컨텐츠를 넣어두었습니다.</p>
+        </div>
+      </template>
+    </BasePopup>
   </div>
 </template>
 
 <script setup>
-import { ref } from 'vue'
+import { ref, onMounted, onBeforeUnmount } from 'vue'
+import { openPopupWindow } from './popupWindow'
 import BaseButton from './BaseButton.vue'
 import BaseInput from './BaseInput.vue'
 import BaseSelect from './BaseSelect.vue'
@@ -398,6 +424,24 @@ import BaseRadio from './BaseRadio.vue'
 import BaseStepper from './BaseStepper.vue'
 import AuthModal from './AuthModal.vue'
 import BaseStepIndicator from './BaseStepIndicator.vue'
+import { popupConfigs } from './popupConfig'
+import BasePopup from './BasePopup.vue'
+import AuthModalContent from './AuthModalContent.vue'
+
+// popup window bridge
+const openPopup = (key = 'auth') => {
+  openPopupWindow(key)
+}
+
+const handlePopupMessage = (e) => {
+  if (!e || !e.data) return
+  if (e.data.type === 'popup-select' && e.data.id) {
+    handleAuthSelect(e.data.id)
+  }
+}
+
+onMounted(() => window.addEventListener('message', handlePopupMessage))
+onBeforeUnmount(() => window.removeEventListener('message', handlePopupMessage))
 
 // 폼 데이터
 const formData = ref({
@@ -452,8 +496,10 @@ const prevStep = () => {
 
 // 팝업
 const isAuthModalOpen = ref(false)
+const activeModalKey = ref('auth')
 
-const openAuthModal = () => {
+const openAuthModal = (key = 'auth') => {
+  activeModalKey.value = key
   isAuthModalOpen.value = true
 }
 
@@ -520,6 +566,25 @@ const handleSubmit = () => {
 
   @include desktop {
     padding: $spacing-2xl;
+  }
+}
+
+/* header actions (top-right popup buttons) */
+.header-actions {
+  display: flex;
+  gap: $spacing-sm;
+  justify-content: center;
+  margin-top: $spacing-sm;
+
+  @include desktop {
+    justify-content: flex-end;
+    margin-top: 0;
+  }
+
+  button {
+    height: 36px;
+    padding: 0 $spacing-md;
+    font-size: $font-size-sm;
   }
 }
 

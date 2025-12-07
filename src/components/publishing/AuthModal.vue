@@ -1,5 +1,5 @@
 <template>
-  <BaseModal :is-open="isOpen" title="간편인증" @close="closeModal">
+  <BasePopup :is-open="isOpen" title="간편인증" @close="closeModal">
     <div class="auth-grid">
       <button 
         v-for="(method, index) in authMethods" 
@@ -11,12 +11,12 @@
         <span class="auth-label">{{ method.label }}</span>
       </button>
     </div>
-  </BaseModal>
+  </BasePopup>
 </template>
 
 <script setup>
 import { ref } from 'vue'
-import BaseModal from './BaseModal.vue'
+import BasePopup from './BasePopup.vue'
 
 const props = defineProps({
   isOpen: {
