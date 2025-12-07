@@ -1,119 +1,162 @@
 <template>
   <BasePopup :is-open="isOpen" title="간편인증" @close="closeModal">
-    <div class="auth-grid">
-      <button 
-        v-for="(method, index) in authMethods" 
-        :key="index"
-        class="auth-button"
-        @click="handleAuth(method.id)"
-      >
-        <div class="auth-icon" v-html="method.icon"></div>
-        <span class="auth-label">{{ method.label }}</span>
-      </button>
+    <div class="auth-popup">
+      <div class="tabs" role="tablist">
+        <button
+          v-for="(t, i) in tabs"
+          :key="i"
+          :class="['tab', { 'is-active': activeTab === i } ]"
+          @click="activeTab = i"
+          role="tab"
+          :aria-selected="activeTab === i"
+        >
+          {{ t }}
+        </button>
+      </div>
+
+      <div class="tab-panel">
+        <form @submit.prevent="onConfirm">
+          <div class="form-row">
+            <label>이름</label>
+            <input v-model="form.name" type="text" placeholder="이름을 입력하세요" />
+          </div>
+
+          <div class="form-row">
+            <label>이메일</label>
+            <input v-model="form.email" type="email" placeholder="example@email.com" />
+          </div>
+
+          <div class="form-row select-row">
+            <label>직접입력</label>
+            <select v-model="form.option">
+              <option value="">선택하세요</option>
+              <option value="phone">휴대폰</option>
+              <option value="pass">PASS</option>
+              <option value="direct">직접입력</option>
+            </select>
+            <button type="button" class="send-code" @click="sendCode">인증번호 발송</button>
+          </div>
+
+          <div class="form-row code-row">
+            <label>인증번호</label>
+            <div class="code-input">
+              <input v-model="form.code" type="text" placeholder="인증번호 입력" />
+              <button type="button" class="code-confirm" @click="confirmCode">확인</button>
+            </div>
+            <p v-if="codeSent" class="hint">인증번호가 발송되었습니다.</p>
+          </div>
+
+          <div class="spacer" />
+
+          <!-- 하단 플로팅 버튼은 popup-container 내부에서 fixed로 렌더됨 -->
+        </form>
+      </div>
+
+      <div class="popup-footer">
+        <button class="btn btn-ghost" @click="closeModal">취소</button>
+        <button class="btn btn-primary" @click="onConfirm">확인</button>
+      </div>
     </div>
   </BasePopup>
 </template>
 
 <script setup>
-import { ref } from 'vue'
+import { ref, reactive } from 'vue'
 import BasePopup from './BasePopup.vue'
 
 const props = defineProps({
-  isOpen: {
-    type: Boolean,
-    required: true
-  }
+  isOpen: { type: Boolean, required: true }
 })
+const emit = defineEmits(['close', 'confirm'])
 
-const emit = defineEmits(['close', 'select'])
+const tabs = ['일반 인증', '간편 인증', '기타']
+const activeTab = ref(0)
 
-const authMethods = ref([
-  { id: 'kakao', label: '카카오', icon: '💬' },
-  { id: 'naver', label: '네이버', icon: '🟢' },
-  { id: 'google', label: '구글', icon: '🔵' },
-  { id: 'apple', label: 'Apple', icon: '🍎' },
-  { id: 'phone', label: '휴대폰', icon: '📱' },
-  { id: 'pass', label: 'PASS', icon: '🔐' },
-  { id: 'kb', label: 'KB모바일', icon: '🏦' },
-  { id: 'shinhan', label: '신한인증', icon: '💳' },
-  { id: 'toss', label: '토스', icon: '💙' },
-  { id: 'payco', label: 'PAYCO', icon: '🅿️' },
-  { id: 'samsung', label: '삼성패스', icon: '📲' },
-  { id: 'biometric', label: '생체인증', icon: '👆' },
-  { id: 'pin', label: 'PIN', icon: '🔢' },
-  { id: 'email', label: '이메일', icon: '✉️' },
-  { id: 'sms', label: 'SMS', icon: '💬' },
-  { id: 'more', label: '더보기', icon: '⋯' }
-])
+const form = reactive({ name: '', email: '', option: '', code: '' })
+const codeSent = ref(false)
 
-const closeModal = () => {
-  emit('close')
+const sendCode = () => {
+  codeSent.value = true
+  // 실제 발송은 백엔드 연동 필요
 }
 
-const handleAuth = (methodId) => {
-  emit('select', methodId)
-  console.log('선택된 인증 방법:', methodId)
+const confirmCode = () => {
+  // 간단한 확인 시뮬레이션
+  if (!form.code) {
+    alert('인증번호를 입력하세요')
+    return
+  }
+  alert('인증번호 확인: ' + form.code)
 }
+
+const onConfirm = () => {
+  emit('confirm', { tab: activeTab.value, data: { ...form } })
+  closeModal()
+}
+
+const closeModal = () => emit('close')
 </script>
 
-<style lang="scss" scoped>
+<style scoped lang="scss">
 @import '@/assets/styles/variables';
 @import '@/assets/styles/mixins';
 
-.auth-grid {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: $spacing-md;
-  
-  @include mobile {
-    gap: $spacing-sm;
-  }
-}
-
-.auth-button {
-  @include button-reset;
-  @include flex-center;
+.auth-popup {
+  display: flex;
   flex-direction: column;
+  gap: $spacing-md;
+}
+
+.tabs {
+  display: flex;
   gap: $spacing-xs;
-  padding: $spacing-lg $spacing-md;
-  background: $gray-50;
-  border: 1px solid $gray-200;
+}
+
+.tab {
+  @include button-reset;
+  padding: $spacing-xs $spacing-md;
   border-radius: $radius-lg;
-  transition: all $transition-fast;
-  
-  @include mobile {
-    padding: $spacing-md $spacing-xs;
-  }
-
-  &:hover {
-    background: $gray-100;
-    border-color: $primary-color;
-    transform: translateY(-2px);
-    box-shadow: $shadow-md;
-  }
-
-  &:active {
-    transform: translateY(0);
-  }
-}
-
-.auth-icon {
-  font-size: 2rem;
-  line-height: 1;
-  
-  @include mobile {
-    font-size: 1.5rem;
-  }
-}
-
-.auth-label {
-  font-size: $font-size-xs;
+  background: $gray-100;
   color: $gray-700;
-  text-align: center;
-  font-weight: 500;
-  
-  @include mobile {
-    font-size: 0.625rem; // 10px
-  }
+  font-weight: 600;
+  cursor: pointer;
 }
+
+.tab.is-active {
+  background: $white;
+  box-shadow: $shadow-sm;
+  color: $gray-900;
+}
+
+.tab-panel {
+  max-height: 420px;
+  overflow-y: auto;
+  padding-right: $spacing-sm;
+}
+
+.form-row { display: flex; flex-direction: column; gap: $spacing-xs; margin-bottom: $spacing-md; }
+.select-row { display: flex; gap: $spacing-sm; align-items: center; }
+.select-row select { flex: 1 }
+.send-code { @include button-reset; background: $primary-color; color: $white; padding: $spacing-xs $spacing-sm; border-radius: $radius-sm }
+
+.code-row .code-input { position: relative; }
+.code-input input { width: 100%; padding-right: 80px }
+.code-confirm { position: absolute; right: 6px; top: 50%; transform: translateY(-50%); @include button-reset; background: $secondary-color; color: $white; padding: $spacing-xs $spacing-sm; border-radius: $radius-sm }
+
+.hint { font-size: $font-size-xs; color: $gray-600 }
+
+.popup-footer {
+  position: sticky;
+  bottom: 0;
+  display: flex;
+  justify-content: flex-end;
+  gap: $spacing-sm;
+  padding-top: $spacing-md;
+  margin-top: $spacing-sm;
+  background: linear-gradient(180deg, rgba(255,255,255,0), rgba(255,255,255,1));
+}
+
+.btn { @include button-reset; padding: $spacing-sm $spacing-md; border-radius: $radius-md }
+.btn-primary { background: $primary-color; color: $white }
+.btn-ghost { background: transparent; border: 1px solid $gray-200 }
 </style>

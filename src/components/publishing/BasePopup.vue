@@ -16,6 +16,7 @@
           <div class="popup-content">
             <slot></slot>
           </div>
+          <slot name="footer"></slot>
         </div>
       </div>
     </transition>
@@ -142,6 +143,9 @@ const handleEscape = (e) => {
   overflow-y: auto;
   flex: 1;
 }
+
+/* footer slot will be placed by components as sticky/fixed if needed */
+.popup-footer-slot { width:100%; }
 
 // 애니메이션
 .popup-fade-enter-active,

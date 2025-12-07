@@ -13,6 +13,10 @@
           <BaseButton size="sm" variant="outline" @click="openPopup('demoMedium')">Medium</BaseButton>
           <BaseButton size="sm" variant="outline" @click="openPopup('demoLarge')">Large</BaseButton>
         </div>
+
+        <div class="test-section">
+          <BaseTab :tabs="tabs" v-model="activeTab" />
+        </div>
       </header>
 
       <!-- 버튼 섹션 -->
@@ -288,6 +292,7 @@
           <BaseButton @click="openPopup('demoSmall')">Small</BaseButton>
           <BaseButton @click="openPopup('demoMedium')">Medium</BaseButton>
           <BaseButton @click="openPopup('demoLarge')">Large</BaseButton>
+          <BaseButton @click="openFindPopup">아이디/비밀번호 찾기</BaseButton>
         </div>
       </section>
 
@@ -390,26 +395,40 @@
           </div>
         </form>
       </section>
+
+      <!-- 인증 팝업 (원래 있던 BasePopup 블록, 삭제되지 않도록 복원) -->
+      <BasePopup 
+        :is-open="isAuthModalOpen" 
+        :title="popupConfigs[activeModalKey].title"
+        :size-key="popupConfigs[activeModalKey].size"
+        @close="closeAuthModal"
+      >
+        <template v-if="popupConfigs[activeModalKey].size === 'auth'">
+          <AuthModalContent @select="(id) => { console.log('selected', id); closeAuthModal() }" />
+        </template>
+
+        <template v-else>
+          <div class="modal-demo-content">
+            <h3>{{ popupConfigs[activeModalKey].title }}</h3>
+            <p>여기에 샘플 컨텐츠를 넣어두었습니다.</p>
+          </div>
+        </template>
+      </BasePopup>
+
+      <!-- 내부 팝업 컴포넌트들 -->
+      <AuthModal
+        v-if="activeModalKey === 'auth' || activeModalKey === 'demoSmall'"
+        :is-open="isAuthModalOpen"
+        @close="closeAuthModal"
+        @confirm="handleAuthSelect"
+      />
+
+      <FindAccountPopup
+        :is-open="isFindPopupOpen"
+        @close="closeFindPopup"
+        @confirm="handleFindConfirm"
+      />
     </div>
-
-    <!-- 인증 팝업 -->
-    <BasePopup 
-      :is-open="isAuthModalOpen" 
-      :title="popupConfigs[activeModalKey].title"
-      :size-key="popupConfigs[activeModalKey].size"
-      @close="closeAuthModal"
-    >
-      <template v-if="popupConfigs[activeModalKey].size === 'auth'">
-        <AuthModalContent @select="(id) => { console.log('selected', id); closeAuthModal() }" />
-      </template>
-
-      <template v-else>
-        <div class="modal-demo-content">
-          <h3>{{ popupConfigs[activeModalKey].title }}</h3>
-          <p>여기에 샘플 컨텐츠를 넣어두었습니다.</p>
-        </div>
-      </template>
-    </BasePopup>
   </div>
 </template>
 
@@ -423,14 +442,23 @@ import BaseCheckbox from './BaseCheckbox.vue'
 import BaseRadio from './BaseRadio.vue'
 import BaseStepper from './BaseStepper.vue'
 import AuthModal from './AuthModal.vue'
+import FindAccountPopup from './FindAccountPopup.vue'
 import BaseStepIndicator from './BaseStepIndicator.vue'
 import { popupConfigs } from './popupConfig'
 import BasePopup from './BasePopup.vue'
 import AuthModalContent from './AuthModalContent.vue'
+import BaseTab from './BaseTab.vue'
 
 // popup window bridge
 const openPopup = (key = 'auth') => {
-  openPopupWindow(key)
+  // open as new window for certain keys, internal popup for others
+  if (key === 'auth' || key === 'demoSmall') {
+    // open internal BasePopup for quicker dev flow
+    activeModalKey.value = key
+    isAuthModalOpen.value = true
+  } else {
+    openPopupWindow(key)
+  }
 }
 
 const handlePopupMessage = (e) => {
@@ -464,6 +492,8 @@ const formData = ref({
 const emailError = ref(false)
 
 // 옵션 데이터
+const tabs = ['탭 1', '탭 2', '탭 3']
+const activeTab = ref(0)
 const countryOptions = [
   { value: 'korea', label: '대한민국' },
   { value: 'usa', label: '미국' },
@@ -497,6 +527,7 @@ const prevStep = () => {
 // 팝업
 const isAuthModalOpen = ref(false)
 const activeModalKey = ref('auth')
+const isFindPopupOpen = ref(false)
 
 const openAuthModal = (key = 'auth') => {
   activeModalKey.value = key
@@ -506,6 +537,10 @@ const openAuthModal = (key = 'auth') => {
 const closeAuthModal = () => {
   isAuthModalOpen.value = false
 }
+
+const openFindPopup = () => { isFindPopupOpen.value = true }
+const closeFindPopup = () => { isFindPopupOpen.value = false }
+const handleFindConfirm = (payload) => { console.log('find confirm', payload); closeFindPopup() }
 
 const handleAuthSelect = (methodId) => {
   console.log('선택된 인증 방법:', methodId)
@@ -788,6 +823,80 @@ const handleSubmit = () => {
     margin-top: $spacing-xl;
     padding-top: $spacing-xl;
     flex-wrap: nowrap;
+  }
+}
+
+/* Responsive Media Queries */
+@media (max-width: 768px) {
+  .header-actions {
+    flex-direction: column;
+    gap: $spacing-xs;
+  }
+
+  .showcase-title {
+    font-size: $font-size-xl;
+  }
+
+  .showcase-description {
+    font-size: $font-size-sm;
+  }
+
+  .section-title {
+    font-size: $font-size-lg;
+  }
+
+  .button-grid {
+    flex-direction: column;
+    gap: $spacing-xs;
+  }
+
+  .demo-subtitle {
+    font-size: 0.85rem;
+  }
+
+  .form-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .button-group {
+    flex-direction: column;
+    gap: $spacing-xs;
+  }
+
+  .demo-form {
+    padding: $spacing-md;
+  }
+
+  .form-step {
+    min-height: 200px;
+  }
+
+  .complete-icon {
+    width: 50px;
+    height: 50px;
+    font-size: 1.5rem;
+  }
+}
+
+@media (max-width: 576px) {
+  .showcase-title {
+    font-size: 32px;
+  }
+
+  .section-title {
+    font-size: 20px;
+  }
+
+  .button-grid {
+    gap: $spacing-xs;
+  }
+
+  .demo-subtitle {
+    font-size: 0.75rem;
+  }
+
+  .form-step {
+    min-height: 180px;
   }
 }
 </style>
