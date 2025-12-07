@@ -208,4 +208,31 @@ export default {
     background: $gray-300;
   }
 }
+
+/* move responsive rules here (previously in mixin) */
+@include mobile {
+  .step-indicator__label {
+    display: none !important;
+  }
+
+  .step-indicator__step {
+    width: 48px !important;
+    height: 48px !important;
+  }
+
+  .step-indicator__icon {
+    width: 20px !important;
+    height: 20px !important;
+  }
+
+  .step-indicator__item {
+    width: 56px !important;
+    min-height: 0 !important;
+    padding-bottom: 8px;
+  }
+
+  .step-indicator__line {
+    height: 2px !important;
+  }
+}
 </style>
