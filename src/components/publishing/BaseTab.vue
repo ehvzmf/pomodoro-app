@@ -1,20 +1,16 @@
 <template>
-  <div class="tab">
-    <div class="tab__header">
+  <div class="base-tab">
+    <div class="base-tab__container">
       <button
         v-for="(tab, index) in state.tabs"
         :key="index"
-        :class="['tab__button', { 'is-active': state.activeIndex === index }]"
+        :class="['base-tab__button', { 'is-active': state.activeIndex === index }]"
         @click="handleTabClick(index)"
       >
-        <i v-if="tab.icon" :class="tab.icon" class="tab__icon"></i>
-        <span class="tab__text">{{ tab.label }}</span>
+        <!-- 아이콘 자리 -->
+        <i v-if="tab.icon" :class="tab.icon" class="base-tab__icon"></i>
+        <span class="base-tab__text">{{ tab.label }}</span>
       </button>
-    </div>
-    <div class="tab__content">
-      <slot :name="`tab-${state.activeIndex}`">
-        <slot></slot>
-      </slot>
     </div>
   </div>
 </template>
@@ -28,7 +24,7 @@ export default {
     tabs: {
       type: Array,
       required: true,
-      // tabs: [{ label: '탭1', icon: 'icon-class' }, { label: '탭2', icon: 'icon-class' }]
+      // tabs: [{ label: '아이디 찾기', icon: 'icon-class' }, { label: '비밀번호 찾기', icon: 'icon-class' }]
     },
     modelValue: {
       type: Number,
@@ -72,62 +68,48 @@ export default {
 </script>
 
 <style scoped>
-.tab {
+.base-tab {
   width: 100%;
 }
 
-.tab__header {
+.base-tab__container {
   display: flex;
-  border-bottom: 2px solid #e5e7eb;
+  width: 100%;
+  height: 50px;
+  background-color: #f3f4f6;
+  border-radius: 14px;
+  padding: 4px;
   gap: 4px;
 }
 
-.tab__button {
+.base-tab__button {
   flex: 1;
-  padding: 12px 20px;
-  background-color: #f9fafb;
-  border: 1px solid #e5e7eb;
-  border-bottom: none;
-  border-radius: 8px 8px 0 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  border: none;
+  background-color: transparent;
+  border-radius: 10px;
   cursor: pointer;
   font-size: 14px;
   font-weight: 500;
   color: #6b7280;
-  transition: all 0.2s ease;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
+  transition: all 0.3s ease;
 }
 
-.sui-tab__button:hover {
-  background-color: #f3f4f6;
-  color: #374151;
-}
-
-.tab__button.is-active {
+.base-tab__button.is-active {
   background-color: #ffffff;
-  color: #2563eb;
-  border-color: #2563eb;
-  border-bottom: 2px solid #ffffff;
-  margin-bottom: -2px;
+  color: #111827;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   font-weight: 600;
 }
 
-.tab__icon {
+.base-tab__icon {
   font-size: 16px;
 }
 
-.tab__text {
+.base-tab__text {
   line-height: 1;
-}
-
-.tab__content {
-  padding: 20px;
-  background-color: #ffffff;
-  border: 1px solid #e5e7eb;
-  border-top: none;
-  border-radius: 0 0 8px 8px;
-  min-height: 200px;
 }
 </style>

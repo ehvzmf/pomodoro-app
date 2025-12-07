@@ -14,9 +14,54 @@
           <BaseButton size="sm" variant="outline" @click="openPopup('demoLarge')">Large</BaseButton>
         </div>
 
-        <div class="test-section">
-          <BaseTab :tabs="tabs" v-model="activeTab" />
-        </div>
+        <!-- 예제 1: 아이디 찾기 / 비밀번호 찾기 스타일 -->
+        <section class="example-section">
+          <h3>기본 예제 (아이디 찾기 / 비밀번호 찾기)</h3>
+          <BaseTab
+            v-model="state.activeTab1"
+            :tabs="state.tabList1"
+            @tab-change="handleTabChange"
+          />
+          <div class="content-area">
+            <div v-if="state.activeTab1 === 0">
+              아이디 찾기 컨텐츠
+            </div>
+            <div v-else>
+              비밀번호 찾기 컨텐츠
+            </div>
+          </div>
+        </section>
+
+        <!-- 예제 2: 아이콘 포함 -->
+        <section class="example-section">
+          <h3>아이콘 포함 예제</h3>
+          <BaseTab
+            v-model="state.activeTab2"
+            :tabs="state.tabList2"
+          />
+          <div class="content-area">
+            <div v-if="state.activeTab2 === 0">
+              홈 컨텐츠
+            </div>
+            <div v-else-if="state.activeTab2 === 1">
+              프로필 컨텐츠
+            </div>
+            <div v-else>
+              설정 컨텐츠
+            </div>
+          </div>
+        </section>
+
+        <section class="example-section">
+          <h3>3개 탭 예제</h3>
+          <BaseTab
+            v-model="state.activeTab3"
+            :tabs="state.tabList3"
+          />
+          <div class="content-area">
+            현재 선택: {{ state.tabList3[state.activeTab3].label }}
+          </div>
+        </section>
       </header>
 
       <!-- 버튼 섹션 -->
@@ -433,7 +478,7 @@
 </template>
 
 <script setup>
-import { ref, onMounted, onBeforeUnmount } from 'vue'
+import { reactive, ref, onMounted, onBeforeUnmount } from 'vue'
 import { openPopupWindow } from './popupWindow'
 import BaseButton from './BaseButton.vue'
 import BaseInput from './BaseInput.vue'
@@ -448,6 +493,30 @@ import { popupConfigs } from './popupConfig'
 import BasePopup from './BasePopup.vue'
 import AuthModalContent from './AuthModalContent.vue'
 import BaseTab from './BaseTab.vue'
+
+const state = reactive({
+  activeTab1: 0,
+  activeTab2: 0,
+  activeTab3: 0,
+  tabList1: [
+    { label: '아이디 찾기' },
+    { label: '비밀번호 찾기' },
+  ],
+  tabList2: [
+    { label: '홈', icon: 'icon-home' },
+    { label: '프로필', icon: 'icon-user' },
+    { label: '설정', icon: 'icon-settings' },
+  ],
+  tabList3: [
+    { label: '전체' },
+    { label: '진행중' },
+    { label: '완료' },
+  ],
+});
+
+const handleTabChange = (index) => {
+  console.log('탭 변경:', index);
+};
 
 // popup window bridge
 const openPopup = (key = 'auth') => {
@@ -685,6 +754,31 @@ const handleSubmit = () => {
     margin-bottom: $spacing-lg;
     padding-bottom: $spacing-md;
   }
+}
+
+.example-page {
+  padding: 40px;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.example-section {
+  margin-bottom: 60px;
+}
+
+.example-section h3 {
+  margin-bottom: 20px;
+  color: #1f2937;
+  font-size: 18px;
+  font-weight: 600;
+}
+
+.content-area {
+  margin-top: 20px;
+  padding: 20px;
+  background-color: #f9fafb;
+  border-radius: 8px;
+  color: #374151;
 }
 
 .button-grid {
