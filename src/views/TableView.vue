@@ -249,7 +249,7 @@ const toggleItem = (index) => {
 .table-wrapper {
   overflow-x: auto;
   -webkit-overflow-scrolling: touch;
-  border-radius: $border-radius-md;
+  border-radius: $radius-md;
   border: 1px solid $gray-200;
   
   /* 스크롤바 스타일링 */
@@ -392,7 +392,7 @@ const toggleItem = (index) => {
 
 .toggle-item {
   border: 1px solid $gray-300;
-  border-radius: $border-radius-md;
+  border-radius: $radius-md;
   overflow: hidden;
   transition: border-color 0.2s;
   
@@ -479,7 +479,7 @@ const toggleItem = (index) => {
 }
 
 .callout {
-  border-radius: $border-radius-md;
+  border-radius: $radius-md;
   padding: $spacing-lg;
   border-left: 4px solid;
 

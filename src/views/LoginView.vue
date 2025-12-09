@@ -162,7 +162,7 @@ const handleSignup = () => {
   width: 100%;
   max-width: 400px;
   background: $white;
-  border-radius: $border-radius-lg;
+  border-radius: $radius-lg;
   padding: $spacing-xl;
   box-shadow: $shadow-md;
 

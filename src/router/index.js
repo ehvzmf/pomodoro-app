@@ -3,6 +3,8 @@ import PomodoroTimer from '../components/PomodoroTimer.vue'
 import StatisticsView from '../components/StatisticsView.vue'
 import SettingsView from '../components/SettingsView.vue'
 import PublishingShowcase from '../components/publishing/PublishingShowcase.vue'
+import LoginView from '../views/LoginView.vue'
+import TableView from '../views/TableView.vue'
 
 // 라우트 정의
 const routes = [
@@ -25,6 +27,16 @@ const routes = [
     path: '/publishing',
     name: 'publishing',
     component: PublishingShowcase
+  },
+  {
+    path: '/login',
+    name: 'login',
+    component: LoginView
+  },
+  {
+    path: '/table',
+    name: 'table',
+    component: TableView
   }
 ]
 
