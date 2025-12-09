@@ -4,6 +4,8 @@ import StatisticsView from '../components/StatisticsView.vue'
 import SettingsView from '../components/SettingsView.vue'
 import PublishingShowcase from '../components/publishing/PublishingShowcase.vue'
 import LoginView from '../views/LoginView.vue'
+import LoginViewVer2 from '../views/LoginViewVer2.vue'
+import LoginViewVer3 from '../views/LoginViewVer3.vue'
 import TableView from '../views/TableView.vue'
 
 // 라우트 정의
@@ -32,6 +34,16 @@ const routes = [
     path: '/login',
     name: 'login',
     component: LoginView
+  },
+  {
+    path: '/login-v2',
+    name: 'login-v2',
+    component: LoginViewVer2
+  },
+  {
+    path: '/login-v3',
+    name: 'login-v3',
+    component: LoginViewVer3
   },
   {
     path: '/table',

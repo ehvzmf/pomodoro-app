@@ -7,16 +7,16 @@
         <!-- 왼쪽 영역: 포탈 정보 -->
         <div class="portal-info">
           <div class="portal-text">
-            <h2>Welcome to Our Portal</h2>
+            <h2>비즈니스 통합 플랫폼</h2>
             <p class="portal-description">
-              안전하고 편리한 통합 인증 시스템으로<br />
-              다양한 서비스를 이용하실 수 있습니다.
+              기업을 위한 올인원 솔루션<br />
+              효율적인 업무 환경을 제공합니다.
             </p>
             <ul class="portal-features">
-              <li>✓ 간편한 로그인 방식</li>
-              <li>✓ 안전한 개인정보 보호</li>
-              <li>✓ 다양한 서비스 연동</li>
-              <li>✓ 24시간 고객 지원</li>
+              <li>✓ 통합 대시보드</li>
+              <li>✓ 실시간 협업 도구</li>
+              <li>✓ 데이터 분석 리포트</li>
+              <li>✓ API 연동 지원</li>
             </ul>
           </div>
         </div>
@@ -172,7 +172,7 @@ const formData = reactive({
 const isLoading = ref(false)
 const codeSent = ref(false)
 const showTimer = ref(false)
-const timeLeft = ref(180) // 3분
+const timeLeft = ref(180)
 let timerInterval = null
 
 const formattedTime = computed(() => {
@@ -389,7 +389,7 @@ onBeforeUnmount(() => {
 .divider {
   position: relative;
   text-align: center;
-  margin: $spacing-md 0;
+  margin: $spacing-lg 0;
 
   &::before {
     content: '';
@@ -404,24 +404,24 @@ onBeforeUnmount(() => {
   span {
     position: relative;
     display: inline-block;
-    padding: 0 $spacing-sm;
+    padding: 0 $spacing-md;
     background: $white;
     color: $gray-500;
-    font-size: $font-size-xs;
+    font-size: $font-size-sm;
   }
 }
 
 .login-form {
   display: flex;
   flex-direction: column;
-  gap: $spacing-sm;
+  gap: $spacing-md;
 }
 
 .info-text {
-  font-size: $font-size-xs;
+  font-size: $font-size-sm;
   color: $gray-600;
   margin: -$spacing-xs 0 0 0;
-  padding: $spacing-xs;
+  padding: $spacing-xs $spacing-sm;
   background: $gray-50;
   border-radius: $radius-sm;
 }
@@ -429,14 +429,13 @@ onBeforeUnmount(() => {
 .verification-group {
   display: grid;
   grid-template-columns: 1fr auto;
-  gap: $spacing-xs;
+  gap: $spacing-sm;
   align-items: end;
 
   .send-code-btn {
-    height: 40px;
-    padding: 0 $spacing-md;
+    height: 44px;
+    padding: 0 $spacing-lg;
     white-space: nowrap;
-    font-size: $font-size-sm;
   }
 }
 
@@ -444,46 +443,46 @@ onBeforeUnmount(() => {
   display: flex;
   align-items: center;
   gap: $spacing-xs;
-  padding: $spacing-xs $spacing-sm;
+  padding: $spacing-sm $spacing-md;
   background: #fff3cd;
   border-radius: $radius-sm;
   color: #856404;
-  font-size: $font-size-xs;
+  font-size: $font-size-sm;
   font-weight: 600;
   margin-top: -$spacing-xs;
 
   .timer-icon {
-    font-size: $font-size-sm;
+    font-size: $font-size-base;
   }
 }
 
 .contact-type {
-  padding: $spacing-sm;
+  padding: $spacing-md;
   background: $gray-50;
-  border-radius: $radius-sm;
+  border-radius: $radius-md;
 
   .contact-label {
     display: block;
-    font-size: $font-size-xs;
+    font-size: $font-size-sm;
     font-weight: 600;
     color: $gray-700;
-    margin-bottom: $spacing-xs;
+    margin-bottom: $spacing-sm;
   }
 }
 
 .radio-list--horizontal {
   display: flex;
-  gap: $spacing-md;
+  gap: $spacing-lg;
 }
 
 .login-button {
   width: 100%;
-  margin-top: $spacing-sm;
+  margin-top: $spacing-md;
 }
 
 .form-footer {
-  margin-top: $spacing-md;
-  padding-top: $spacing-md;
+  margin-top: $spacing-xl;
+  padding-top: $spacing-lg;
   border-top: 1px solid $gray-200;
   display: flex;
   justify-content: space-between;
@@ -491,18 +490,18 @@ onBeforeUnmount(() => {
 
   @include mobile {
     flex-direction: column;
-    gap: $spacing-sm;
+    gap: $spacing-md;
     align-items: stretch;
   }
 }
 
 .footer-links {
   display: flex;
-  gap: $spacing-xs;
+  gap: $spacing-sm;
   align-items: center;
 
   a {
-    font-size: $font-size-xs;
+    font-size: $font-size-sm;
     color: $gray-600;
     text-decoration: none;
     transition: color 0.2s;
@@ -514,7 +513,6 @@ onBeforeUnmount(() => {
 
   .link-divider {
     color: $gray-400;
-    font-size: $font-size-xs;
   }
 }
 
@@ -522,10 +520,9 @@ onBeforeUnmount(() => {
   display: flex;
   align-items: center;
   gap: $spacing-xs;
-  padding: $spacing-xs $spacing-md;
+  padding: $spacing-sm $spacing-lg;
   color: $primary-color;
   font-weight: 600;
-  font-size: $font-size-xs;
 
   .arrow-icon {
     transition: transform 0.2s;
