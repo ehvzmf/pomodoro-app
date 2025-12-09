@@ -288,9 +288,12 @@ onBeforeUnmount(() => {
 
   @include mobile {
     grid-template-columns: 1fr;
-    gap: $spacing-lg;
+    gap: 0;
     min-height: auto;
-    padding: $spacing-xl $spacing-lg;
+    padding: 0;
+    border-radius: 0;
+    background: transparent;
+    box-shadow: none;
   }
 }
 
@@ -300,6 +303,14 @@ onBeforeUnmount(() => {
   flex-direction: column;
   gap: $spacing-lg;
   color: $white;
+
+  @include mobile {
+    height: 120px;
+    justify-content: center;
+    padding: 0 20px;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    gap: $spacing-xs;
+  }
 }
 
 .portal-text {
@@ -312,6 +323,11 @@ onBeforeUnmount(() => {
     @include desktop {
       font-size: 2rem;
     }
+
+    @include mobile {
+      font-size: $font-size-lg;
+      margin-bottom: $spacing-xs;
+    }
   }
 
   .portal-description {
@@ -319,6 +335,11 @@ onBeforeUnmount(() => {
     color: rgba(255, 255, 255, 0.95);
     line-height: 1.6;
     margin-bottom: $spacing-lg;
+
+    @include mobile {
+      font-size: $font-size-sm;
+      margin-bottom: 0;
+    }
   }
 }
 
@@ -337,6 +358,10 @@ onBeforeUnmount(() => {
       border-bottom: none;
     }
   }
+
+  @include mobile {
+    display: none;
+  }
 }
 
 /* 오른쪽 로그인 폼 */
@@ -349,8 +374,12 @@ onBeforeUnmount(() => {
   max-width: 380px;
 
   @include mobile {
-    padding: $spacing-lg;
+    padding: $spacing-xl $spacing-lg;
     max-width: 100%;
+    border-radius: 0;
+    border: none;
+    border-top: 1px solid $gray-200;
+    box-shadow: none;
   }
 }
 

@@ -23,36 +23,55 @@
 
         <!-- 오른쪽 영역: 간편 로그인 폼 -->
         <div class="login-form-container">
-          <h3 class="form-title">간편 인증</h3>
+          <h3 class="form-title">로그인</h3>
           
-          <div class="easy-login-content">
-            <div class="tooltip-container">
+          <!-- 간편 로그인 버튼 -->
+          <div class="quick-login-buttons">
+            <div class="quick-login-wrapper">
               <div class="tooltip">간편한 로그인을 이용하세요!</div>
               <BaseButton
-                variant="primary"
-                size="lg"
-                class="easy-login-button"
-                @click="handleEasyLogin"
+                variant="outline"
+                class="quick-login-btn quick-login-btn--active"
+                @click="handleQuickLogin('easy')"
               >
                 <span class="btn-icon">🔐</span>
-                간편 인증 로그인
+                간편인증 로그인
               </BaseButton>
             </div>
-            
-            <div class="login-guide">
-              <p class="guide-text">
-                ✓ 지문 또는 얼굴 인식으로 빠르게 로그인<br />
-                ✓ 별도의 비밀번호 입력 불필요<br />
-                ✓ 안전하고 편리한 인증 방식
-              </p>
-            </div>
+            <BaseButton
+              variant="outline"
+              class="quick-login-btn"
+              @click="handleQuickLogin('sms')"
+            >
+              <span class="btn-icon">📱</span>
+              SMS 로그인
+            </BaseButton>
           </div>
+
+          <div class="divider">
+            <span>또는</span>
+          </div>
+
+          <!-- 안내 문구 -->
+          <p class="info-text info-text--highlight">
+            ℹ️ 간편인증으로 빠르고 안전하게 로그인하세요.
+          </p>
 
           <!-- 하단 링크 -->
           <div class="form-footer">
             <div class="footer-links">
-              <a href="#" @click.prevent="handleBackToNormal">일반 로그인으로 돌아가기</a>
+              <a href="#" @click.prevent="handleFindId">아이디 찾기</a>
+              <span class="link-divider">|</span>
+              <a href="#" @click.prevent="handleFindPassword">비밀번호 찾기</a>
             </div>
+            <BaseButton
+              variant="ghost"
+              class="signup-btn"
+              @click="handleSignup"
+            >
+              회원가입
+              <span class="arrow-icon">→</span>
+            </BaseButton>
           </div>
         </div>
       </div>
@@ -92,12 +111,21 @@ import AppHeader from '@/components/layout/AppHeader.vue'
 import AppFooter from '@/components/layout/AppFooter.vue'
 import BaseButton from '@/components/publishing/BaseButton.vue'
 
-const handleEasyLogin = () => {
-  alert('간편 인증을 시작합니다.')
+const handleQuickLogin = (type) => {
+  console.log(`${type} 간편 로그인`)
+  alert(`${type === 'easy' ? '간편인증' : 'SMS'} 로그인 페이지로 이동합니다.`)
 }
 
-const handleBackToNormal = () => {
-  alert('일반 로그인 페이지로 이동합니다.')
+const handleFindId = () => {
+  console.log('아이디 찾기')
+}
+
+const handleFindPassword = () => {
+  console.log('비밀번호 찾기')
+}
+
+const handleSignup = () => {
+  console.log('회원가입')
 }
 </script>
 
@@ -134,9 +162,12 @@ const handleBackToNormal = () => {
 
   @include mobile {
     grid-template-columns: 1fr;
-    gap: $spacing-lg;
+    gap: 0;
     min-height: auto;
-    padding: $spacing-xl $spacing-lg;
+    padding: 0;
+    border-radius: 0;
+    background: transparent;
+    box-shadow: none;
   }
 }
 
@@ -146,6 +177,14 @@ const handleBackToNormal = () => {
   flex-direction: column;
   gap: $spacing-lg;
   color: $white;
+
+  @include mobile {
+    height: 120px;
+    justify-content: center;
+    padding: 0 20px;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    gap: $spacing-xs;
+  }
 }
 
 .portal-text {
@@ -158,6 +197,11 @@ const handleBackToNormal = () => {
     @include desktop {
       font-size: 2rem;
     }
+
+    @include mobile {
+      font-size: $font-size-lg;
+      margin-bottom: $spacing-xs;
+    }
   }
 
   .portal-description {
@@ -165,6 +209,11 @@ const handleBackToNormal = () => {
     color: rgba(255, 255, 255, 0.95);
     line-height: 1.6;
     margin-bottom: $spacing-lg;
+
+    @include mobile {
+      font-size: $font-size-sm;
+      margin-bottom: 0;
+    }
   }
 }
 
@@ -183,6 +232,10 @@ const handleBackToNormal = () => {
       border-bottom: none;
     }
   }
+
+  @include mobile {
+    display: none;
+  }
 }
 
 /* 오른쪽 간편 로그인 폼 */
@@ -195,8 +248,12 @@ const handleBackToNormal = () => {
   max-width: 380px;
 
   @include mobile {
-    padding: $spacing-lg;
+    padding: $spacing-xl $spacing-lg;
     max-width: 100%;
+    border-radius: 0;
+    border: none;
+    border-top: 1px solid $gray-200;
+    box-shadow: none;
   }
 }
 
@@ -204,70 +261,69 @@ const handleBackToNormal = () => {
   font-size: $font-size-lg;
   font-weight: 700;
   color: $gray-800;
-  margin: 0 0 $spacing-lg 0;
+  margin: 0 0 $spacing-md 0;
   text-align: center;
 }
 
-.easy-login-content {
-  display: flex;
-  flex-direction: column;
-  gap: $spacing-lg;
-  margin-bottom: $spacing-xl;
+.quick-login-buttons {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: $spacing-xs;
+  margin-bottom: $spacing-md;
+
+  @include mobile {
+    grid-template-columns: 1fr;
+  }
 }
 
-.tooltip-container {
+.quick-login-wrapper {
   position: relative;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: $spacing-sm;
 }
 
 .tooltip {
+  position: absolute;
+  top: -8px;
+  left: 50%;
+  transform: translateX(-50%);
   background: $primary-color;
   color: $white;
-  padding: $spacing-xs $spacing-md;
-  border-radius: $radius-md;
-  font-size: $font-size-sm;
-  position: relative;
+  padding: $spacing-xs $spacing-sm;
+  border-radius: $radius-sm;
+  font-size: $font-size-xs;
   white-space: nowrap;
   box-shadow: $shadow-md;
-  animation: bounce 2s infinite;
+  z-index: 10;
 
   &::after {
     content: '';
     position: absolute;
-    bottom: -6px;
+    bottom: -4px;
     left: 50%;
     transform: translateX(-50%);
     width: 0;
     height: 0;
-    border-left: 6px solid transparent;
-    border-right: 6px solid transparent;
-    border-top: 6px solid $primary-color;
+    border-left: 4px solid transparent;
+    border-right: 4px solid transparent;
+    border-top: 4px solid $primary-color;
   }
 }
 
-@keyframes bounce {
-  0%, 100% {
-    transform: translateY(0);
-  }
-  50% {
-    transform: translateY(-8px);
-  }
-}
-
-.easy-login-button {
-  width: 100%;
+.quick-login-btn {
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: $spacing-sm;
-  padding: $spacing-lg;
-  font-size: $font-size-base;
+  gap: $spacing-xs;
+  font-size: $font-size-sm;
+  padding: $spacing-sm;
 
   .btn-icon {
-    font-size: $font-size-lg;
+    font-size: $font-size-base;
+  }
+
+  &--active {
+    background: rgba($primary-color, 0.1);
+    border-color: $primary-color;
+    color: $primary-color;
   }
 }
 
@@ -289,34 +345,48 @@ const handleBackToNormal = () => {
   span {
     position: relative;
     display: inline-block;
-    padding: 0 $spacing-md;
+    padding: 0 $spacing-sm;
     background: $white;
     color: $gray-500;
-    font-size: $font-size-sm;
+    font-size: $font-size-xs;
   }
 }
 
-.login-guide {
-  padding: $spacing-md;
+.info-text {
+  font-size: $font-size-xs;
+  color: $gray-600;
+  margin: 0 0 $spacing-md 0;
+  padding: $spacing-xs;
   background: $gray-50;
-  border-radius: $radius-md;
-  border-left: 3px solid $primary-color;
-}
+  border-radius: $radius-sm;
 
-.guide-text {
-  font-size: $font-size-sm;
-  color: $gray-700;
-  line-height: 1.8;
-  margin: 0;
+  &--highlight {
+    background: rgba($primary-color, 0.1);
+    color: $primary-color;
+    border-left: 3px solid $primary-color;
+  }
 }
 
 .form-footer {
+  margin-top: $spacing-md;
   padding-top: $spacing-md;
   border-top: 1px solid $gray-200;
-  text-align: center;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  @include mobile {
+    flex-direction: column;
+    gap: $spacing-sm;
+    align-items: stretch;
+  }
 }
 
 .footer-links {
+  display: flex;
+  gap: $spacing-xs;
+  align-items: center;
+
   a {
     font-size: $font-size-xs;
     color: $gray-600;
@@ -326,6 +396,194 @@ const handleBackToNormal = () => {
     &:hover {
       color: $primary-color;
     }
+  }
+
+  .link-divider {
+    color: $gray-400;
+    font-size: $font-size-xs;
+  }
+}
+
+.signup-btn {
+  display: flex;
+  align-items: center;
+  gap: $spacing-xs;
+  padding: $spacing-xs $spacing-md;
+  color: $primary-color;
+  font-weight: 600;
+  font-size: $font-size-xs;
+
+  .arrow-icon {
+    transition: transform 0.2s;
+  }
+
+  &:hover .arrow-icon {
+    transform: translateX(4px);
+  }
+}
+
+.form-title {
+  font-size: $font-size-lg;
+  font-weight: 700;
+  color: $gray-800;
+  margin: 0 0 $spacing-md 0;
+  text-align: center;
+}
+
+.quick-login-buttons {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: $spacing-xs;
+  margin-bottom: $spacing-md;
+
+  @include mobile {
+    grid-template-columns: 1fr;
+  }
+}
+
+.quick-login-wrapper {
+  position: relative;
+}
+
+.tooltip {
+  position: absolute;
+  top: -8px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: $primary-color;
+  color: $white;
+  padding: $spacing-xs $spacing-sm;
+  border-radius: $radius-sm;
+  font-size: $font-size-xs;
+  white-space: nowrap;
+  box-shadow: $shadow-md;
+  z-index: 10;
+
+  &::after {
+    content: '';
+    position: absolute;
+    bottom: -4px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 0;
+    height: 0;
+    border-left: 4px solid transparent;
+    border-right: 4px solid transparent;
+    border-top: 4px solid $primary-color;
+  }
+}
+
+.quick-login-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: $spacing-xs;
+  font-size: $font-size-sm;
+  padding: $spacing-sm;
+
+  .btn-icon {
+    font-size: $font-size-base;
+  }
+
+  &--active {
+    background: rgba($primary-color, 0.1);
+    border-color: $primary-color;
+    color: $primary-color;
+  }
+}
+
+.divider {
+  position: relative;
+  text-align: center;
+  margin: $spacing-md 0;
+
+  &::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: $gray-200;
+  }
+
+  span {
+    position: relative;
+    display: inline-block;
+    padding: 0 $spacing-sm;
+    background: $white;
+    color: $gray-500;
+    font-size: $font-size-xs;
+  }
+}
+
+.info-text {
+  font-size: $font-size-xs;
+  color: $gray-600;
+  margin: 0 0 $spacing-md 0;
+  padding: $spacing-xs;
+  background: $gray-50;
+  border-radius: $radius-sm;
+
+  &--highlight {
+    background: rgba($primary-color, 0.1);
+    color: $primary-color;
+    border-left: 3px solid $primary-color;
+  }
+}
+
+.form-footer {
+  margin-top: $spacing-md;
+  padding-top: $spacing-md;
+  border-top: 1px solid $gray-200;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  @include mobile {
+    flex-direction: column;
+    gap: $spacing-sm;
+    align-items: stretch;
+  }
+}
+
+.footer-links {
+  display: flex;
+  gap: $spacing-xs;
+  align-items: center;
+
+  a {
+    font-size: $font-size-xs;
+    color: $gray-600;
+    text-decoration: none;
+    transition: color 0.2s;
+
+    &:hover {
+      color: $primary-color;
+    }
+  }
+
+  .link-divider {
+    color: $gray-400;
+    font-size: $font-size-xs;
+  }
+}
+
+.signup-btn {
+  display: flex;
+  align-items: center;
+  gap: $spacing-xs;
+  padding: $spacing-xs $spacing-md;
+  color: $primary-color;
+  font-weight: 600;
+  font-size: $font-size-xs;
+
+  .arrow-icon {
+    transition: transform 0.2s;
+  }
+
+  &:hover .arrow-icon {
+    transform: translateX(4px);
   }
 }
 
