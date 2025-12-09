@@ -52,8 +52,23 @@
             <span>또는</span>
           </div>
 
+          <!-- 간편인증 로그인 버튼 -->
+          <div class="easy-auth-wrapper">
+            <div class="easy-auth-tooltip">간편한 로그인을 이용하세요!</div>
+            <BaseButton
+              type="button"
+              variant="primary"
+              size="lg"
+              class="easy-auth-button"
+              @click="handleQuickLogin('easy')"
+            >
+              <span class="btn-icon">🔐</span>
+              간편인증 로그인
+            </BaseButton>
+          </div>
+
           <!-- 안내 문구 -->
-          <p class="info-text info-text--highlight">
+          <p class="info-text">
             ℹ️ 간편인증으로 빠르고 안전하게 로그인하세요.
           </p>
 
@@ -106,7 +121,7 @@
 </template>
 
 <script setup>
-import { ref } from 'vue'
+import { ref, onMounted, onUnmounted } from 'vue'
 import AppHeader from '@/components/layout/AppHeader.vue'
 import AppFooter from '@/components/layout/AppFooter.vue'
 import BaseButton from '@/components/publishing/BaseButton.vue'
@@ -127,6 +142,29 @@ const handleFindPassword = () => {
 const handleSignup = () => {
   console.log('회원가입')
 }
+
+// 스크롤 시 헤더 배경 변경
+const handleScroll = () => {
+  const header = document.querySelector('.app-header')
+  if (!header) return
+  
+  // 이미지 영역 높이(180px)를 지나면 헤더 배경 흰색
+  if (window.scrollY > 180) {
+    header.style.background = '#ffffff'
+    header.style.borderBottom = '1px solid #e5e7eb'
+  } else {
+    header.style.background = 'transparent'
+    header.style.borderBottom = 'none'
+  }
+}
+
+onMounted(() => {
+  window.addEventListener('scroll', handleScroll)
+})
+
+onUnmounted(() => {
+  window.removeEventListener('scroll', handleScroll)
+})
 </script>
 
 <style lang="scss" scoped>
@@ -137,6 +175,11 @@ const handleSignup = () => {
   display: flex;
   flex-direction: column;
   background: $white;
+
+  @include mobile {
+    padding-top: 0;
+    background: $white;
+  }
 }
 
 .login-main {
@@ -145,7 +188,9 @@ const handleSignup = () => {
   background: $white;
 
   @include mobile {
-    padding: 10px 20px;
+    padding: 0;
+    padding-top: 180px; // 이미지 영역 높이만큼
+    background: $white;
   }
 }
 
@@ -179,11 +224,20 @@ const handleSignup = () => {
   color: $white;
 
   @include mobile {
-    height: 120px;
-    justify-content: center;
-    padding: 0 20px;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 180px;
+    padding: $spacing-md 20px;
+    padding-top: 60px; // 헤더 높이만큼 로고 아래 공간 확보
+    z-index: 1;
+    // 배경 이미지 영역 - 이미지 경로만 추가하면 됩니다
+    // background-image: url('@/assets/images/login-bg.jpg');
     background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-    gap: $spacing-xs;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
   }
 }
 
@@ -252,8 +306,8 @@ const handleSignup = () => {
     max-width: 100%;
     border-radius: 0;
     border: none;
-    border-top: 1px solid $gray-200;
     box-shadow: none;
+    margin: 0;
   }
 }
 
@@ -270,10 +324,6 @@ const handleSignup = () => {
   grid-template-columns: 1fr 1fr;
   gap: $spacing-xs;
   margin-bottom: $spacing-md;
-
-  @include mobile {
-    grid-template-columns: 1fr;
-  }
 }
 
 .quick-login-wrapper {
@@ -437,7 +487,7 @@ const handleSignup = () => {
   margin-bottom: $spacing-md;
 
   @include mobile {
-    grid-template-columns: 1fr;
+    grid-template-columns: 1fr 1fr;
   }
 }
 
@@ -446,31 +496,7 @@ const handleSignup = () => {
 }
 
 .tooltip {
-  position: absolute;
-  top: -8px;
-  left: 50%;
-  transform: translateX(-50%);
-  background: $primary-color;
-  color: $white;
-  padding: $spacing-xs $spacing-sm;
-  border-radius: $radius-sm;
-  font-size: $font-size-xs;
-  white-space: nowrap;
-  box-shadow: $shadow-md;
-  z-index: 10;
-
-  &::after {
-    content: '';
-    position: absolute;
-    bottom: -4px;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 0;
-    height: 0;
-    border-left: 4px solid transparent;
-    border-right: 4px solid transparent;
-    border-top: 4px solid $primary-color;
-  }
+  display: none;
 }
 
 .quick-login-btn {
@@ -517,6 +543,67 @@ const handleSignup = () => {
   }
 }
 
+.easy-auth-wrapper {
+  position: relative;
+  margin-bottom: $spacing-md;
+}
+
+.easy-auth-tooltip {
+  position: absolute;
+  top: -12px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: $white;
+  color: $primary-color;
+  border: 2px solid $primary-color;
+  border-radius: $radius-lg;
+  padding: $spacing-xs $spacing-md;
+  font-size: $font-size-xs;
+  font-weight: 600;
+  white-space: nowrap;
+  box-shadow: 0 2px 8px rgba(239, 68, 68, 0.15);
+  z-index: 10;
+
+  &::after {
+    content: '';
+    position: absolute;
+    bottom: -9px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 0;
+    height: 0;
+    border-left: 9px solid transparent;
+    border-right: 9px solid transparent;
+    border-top: 9px solid $primary-color;
+  }
+
+  &::before {
+    content: '';
+    position: absolute;
+    bottom: -6px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 0;
+    height: 0;
+    border-left: 7px solid transparent;
+    border-right: 7px solid transparent;
+    border-top: 7px solid $white;
+    z-index: 1;
+  }
+}
+
+.easy-auth-button {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: $spacing-sm;
+
+  .btn-icon {
+    font-size: $font-size-lg;
+  }
+}
+
 .info-text {
   font-size: $font-size-xs;
   color: $gray-600;
@@ -524,12 +611,6 @@ const handleSignup = () => {
   padding: $spacing-xs;
   background: $gray-50;
   border-radius: $radius-sm;
-
-  &--highlight {
-    background: rgba($primary-color, 0.1);
-    color: $primary-color;
-    border-left: 3px solid $primary-color;
-  }
 }
 
 .form-footer {
@@ -594,11 +675,13 @@ const handleSignup = () => {
   justify-content: space-between;
   align-items: flex-start;
   gap: $spacing-xl;
+  background: $white; // 하단은 흰색 배경
 
   @include mobile {
     flex-direction: column;
     padding: $spacing-lg 20px;
     gap: $spacing-lg;
+    background: $white; // 모바일에서도 흰색 배경
   }
 }
 

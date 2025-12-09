@@ -155,7 +155,7 @@
 </template>
 
 <script setup>
-import { ref, reactive, computed, onBeforeUnmount } from 'vue'
+import { ref, reactive, computed, onMounted, onBeforeUnmount } from 'vue'
 import AppHeader from '@/components/layout/AppHeader.vue'
 import AppFooter from '@/components/layout/AppFooter.vue'
 import BaseInput from '@/components/publishing/BaseInput.vue'
@@ -248,7 +248,27 @@ const handleSignup = () => {
   console.log('회원가입')
 }
 
+// 스크롤 시 헤더 배경 변경
+const handleScroll = () => {
+  const header = document.querySelector('.app-header')
+  if (!header) return
+  
+  // 이미지 영역 높이(180px)를 지나면 헤더 배경 흰색
+  if (window.scrollY > 180) {
+    header.style.background = '#ffffff'
+    header.style.borderBottom = '1px solid #e5e7eb'
+  } else {
+    header.style.background = 'transparent'
+    header.style.borderBottom = 'none'
+  }
+}
+
+onMounted(() => {
+  window.addEventListener('scroll', handleScroll)
+})
+
 onBeforeUnmount(() => {
+  window.removeEventListener('scroll', handleScroll)
   if (timerInterval) {
     clearInterval(timerInterval)
   }
@@ -263,6 +283,11 @@ onBeforeUnmount(() => {
   display: flex;
   flex-direction: column;
   background: $white;
+
+  @include mobile {
+    padding-top: 0;
+    background: $white;
+  }
 }
 
 .login-main {
@@ -271,7 +296,9 @@ onBeforeUnmount(() => {
   background: $white;
 
   @include mobile {
-    padding: 10px 20px;
+    padding: 0;
+    padding-top: 180px; // 이미지 영역 높이만큼
+    background: $white;
   }
 }
 
@@ -305,11 +332,22 @@ onBeforeUnmount(() => {
   color: $white;
 
   @include mobile {
-    height: 120px;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 180px;
     justify-content: center;
     padding: 0 20px;
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    padding-top: 60px; // 헤더 높이만큼 로고 아래 공간 확보
+    z-index: 1;
     gap: $spacing-xs;
+    // 배경 이미지 영역 - 이미지 경로만 추가하면 됩니다
+    // background-image: url('@/assets/images/login-bg.jpg');
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
   }
 }
 
@@ -378,8 +416,8 @@ onBeforeUnmount(() => {
     max-width: 100%;
     border-radius: 0;
     border: none;
-    border-top: 1px solid $gray-200;
     box-shadow: none;
+    margin-top: 120px;
   }
 }
 
