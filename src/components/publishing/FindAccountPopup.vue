@@ -75,8 +75,7 @@ const closePopup = () => emit('close')
 </script>
 
 <style scoped lang="scss">
-@import '@/assets/styles/variables';
-@import '@/assets/styles/mixins';
+@use '@/assets/styles/mixins' as *;
 
 /* make inner card with smaller radius to appear as smaller popup */
 .find-popup .card {

@@ -5,63 +5,6 @@
       <header class="showcase-header">
         <h1 class="showcase-title">퍼블리싱 컴포넌트 쇼케이스</h1>
         <p class="showcase-description">SCSS로 구현된 재사용 가능한 UI 컴포넌트들</p>
-
-        <!-- 상단 팝업 액션 버튼 -->
-        <div class="header-actions">
-          <BaseButton size="sm" @click="openPopup('auth')">간편인증 팝업</BaseButton>
-          <BaseButton size="sm" variant="outline" @click="openPopup('demoSmall')">Small</BaseButton>
-          <BaseButton size="sm" variant="outline" @click="openPopup('demoMedium')">Medium</BaseButton>
-          <BaseButton size="sm" variant="outline" @click="openPopup('demoLarge')">Large</BaseButton>
-        </div>
-
-        <!-- 예제 1: 아이디 찾기 / 비밀번호 찾기 스타일 -->
-        <section class="example-section">
-          <h3>기본 예제 (아이디 찾기 / 비밀번호 찾기)</h3>
-          <BaseTab
-            v-model="state.activeTab1"
-            :tabs="state.tabList1"
-            @tab-change="handleTabChange"
-          />
-          <div class="content-area">
-            <div v-if="state.activeTab1 === 0">
-              아이디 찾기 컨텐츠
-            </div>
-            <div v-else>
-              비밀번호 찾기 컨텐츠
-            </div>
-          </div>
-        </section>
-
-        <!-- 예제 2: 아이콘 포함 -->
-        <section class="example-section">
-          <h3>아이콘 포함 예제</h3>
-          <BaseTab
-            v-model="state.activeTab2"
-            :tabs="state.tabList2"
-          />
-          <div class="content-area">
-            <div v-if="state.activeTab2 === 0">
-              홈 컨텐츠
-            </div>
-            <div v-else-if="state.activeTab2 === 1">
-              프로필 컨텐츠
-            </div>
-            <div v-else>
-              설정 컨텐츠
-            </div>
-          </div>
-        </section>
-
-        <section class="example-section">
-          <h3>3개 탭 예제</h3>
-          <BaseTab
-            v-model="state.activeTab3"
-            :tabs="state.tabList3"
-          />
-          <div class="content-area">
-            현재 선택: {{ state.tabList3[state.activeTab3].label }}
-          </div>
-        </section>
       </header>
 
       <!-- 버튼 섹션 -->
@@ -165,136 +108,138 @@
         
         <div class="checkbox-demo">
           <h3 class="demo-subtitle">단일 체크박스</h3>
-          <BaseCheckbox
-            id="terms"
-            v-model="formData.agreeTerms"
-            label="이용약관에 동의합니다"
-            :required="true"
-          />
-          <BaseCheckbox
-            id="marketing"
-            v-model="formData.agreeMarketing"
-            label="마케팅 정보 수신에 동의합니다"
-          />
-          <BaseCheckbox
-            id="disabled-check"
-            v-model="formData.disabledCheck"
-            label="비활성화된 체크박스"
-            :disabled="true"
-          />
-        </div>
-
-        <div class="checkbox-demo">
-          <h3 class="demo-subtitle">체크박스 그룹</h3>
-          <div class="checkbox-group">
+          <div class="checkbox-list">
             <BaseCheckbox
-              id="hobby-1"
-              v-model="formData.hobbies"
-              value="reading"
-              label="독서"
-            />
-            <BaseCheckbox
-              id="hobby-2"
-              v-model="formData.hobbies"
-              value="music"
-              label="음악 감상"
-            />
-            <BaseCheckbox
-              id="hobby-3"
-              v-model="formData.hobbies"
-              value="sports"
-              label="운동"
-            />
-            <BaseCheckbox
-              id="hobby-4"
-              v-model="formData.hobbies"
-              value="travel"
-              label="여행"
-            />
-          </div>
-        </div>
-      </section>
-
-      <!-- 라디오 버튼 섹션 -->
-      <section class="showcase-section">
-        <h2 class="section-title">Radio Buttons</h2>
-        
-        <div class="radio-demo">
-          <h3 class="demo-subtitle">세로 배치</h3>
-          <div class="radio-group">
-            <BaseRadio
-              id="gender-male"
-              v-model="formData.gender"
-              name="gender"
-              value="male"
-              label="남성"
+              id="terms"
+              v-model="formData.agreeTerms"
+              label="이용약관에 동의합니다"
               :required="true"
             />
-            <BaseRadio
-              id="gender-female"
-              v-model="formData.gender"
-              name="gender"
-              value="female"
-              label="여성"
+            <BaseCheckbox
+              id="marketing"
+              v-model="formData.agreeMarketing"
+              label="마케팅 정보 수신에 동의합니다"
             />
-            <BaseRadio
-              id="gender-other"
-              v-model="formData.gender"
-              name="gender"
-              value="other"
-              label="기타"
-            />
-          </div>
-        </div>
-
-        <div class="radio-demo">
-          <h3 class="demo-subtitle">가로 배치</h3>
-          <div class="radio-group radio-group--horizontal">
-            <BaseRadio
-              id="size-small"
-              v-model="formData.size"
-              name="size"
-              value="small"
-              label="Small"
-            />
-            <BaseRadio
-              id="size-medium"
-              v-model="formData.size"
-              name="size"
-              value="medium"
-              label="Medium"
-            />
-            <BaseRadio
-              id="size-large"
-              v-model="formData.size"
-              name="size"
-              value="large"
-              label="Large"
-            />
-          </div>
-        </div>
-
-        <div class="radio-demo">
-          <h3 class="demo-subtitle">비활성화</h3>
-          <div class="radio-group">
-            <BaseRadio
-              id="disabled-radio-1"
-              v-model="formData.disabledRadio"
-              name="disabled-radio"
-              value="option1"
-              label="옵션 1 (비활성화)"
+            <BaseCheckbox
+              id="disabled-check"
+              v-model="formData.disabledCheck"
+              label="비활성화된 체크박스"
               :disabled="true"
             />
-            <BaseRadio
-              id="disabled-radio-2"
-              v-model="formData.disabledRadio"
-              name="disabled-radio"
-              value="option2"
-              label="옵션 2"
-            />
           </div>
-        </div>
-      </section>
+         </div>
+
+         <div class="checkbox-demo">
+           <h3 class="demo-subtitle">체크박스 그룹</h3>
+           <div class="checkbox-list checkbox-list--grid">
+             <BaseCheckbox
+               id="hobby-1"
+               v-model="formData.hobbies"
+               value="reading"
+               label="독서"
+             />
+             <BaseCheckbox
+               id="hobby-2"
+               v-model="formData.hobbies"
+               value="music"
+               label="음악 감상"
+             />
+             <BaseCheckbox
+               id="hobby-3"
+               v-model="formData.hobbies"
+               value="sports"
+               label="운동"
+             />
+             <BaseCheckbox
+               id="hobby-4"
+               v-model="formData.hobbies"
+               value="travel"
+               label="여행"
+             />
+           </div>
+         </div>
+       </section>
+
+       <!-- 라디오 버튼 섹션 -->
+       <section class="showcase-section">
+         <h2 class="section-title">Radio Buttons</h2>
+         
+         <div class="radio-demo">
+           <h3 class="demo-subtitle">세로 배치</h3>
+           <div class="radio-list">
+             <BaseRadio
+               id="gender-male"
+               v-model="formData.gender"
+               name="gender"
+               value="male"
+               label="남성"
+               :required="true"
+             />
+             <BaseRadio
+               id="gender-female"
+               v-model="formData.gender"
+               name="gender"
+               value="female"
+               label="여성"
+             />
+             <BaseRadio
+               id="gender-other"
+               v-model="formData.gender"
+               name="gender"
+               value="other"
+               label="기타"
+             />
+           </div>
+         </div>
+
+         <div class="radio-demo">
+           <h3 class="demo-subtitle">가로 배치</h3>
+           <div class="radio-list radio-list--horizontal">
+             <BaseRadio
+               id="size-small"
+               v-model="formData.size"
+               name="size"
+               value="small"
+               label="Small"
+             />
+             <BaseRadio
+               id="size-medium"
+               v-model="formData.size"
+               name="size"
+               value="medium"
+               label="Medium"
+             />
+             <BaseRadio
+               id="size-large"
+               v-model="formData.size"
+               name="size"
+               value="large"
+               label="Large"
+             />
+           </div>
+         </div>
+
+         <div class="radio-demo">
+           <h3 class="demo-subtitle">비활성화</h3>
+           <div class="radio-list">
+             <BaseRadio
+               id="disabled-radio-1"
+               v-model="formData.disabledRadio"
+               name="disabled-radio"
+               value="option1"
+               label="옵션 1 (비활성화)"
+               :disabled="true"
+             />
+             <BaseRadio
+               id="disabled-radio-2"
+               v-model="formData.disabledRadio"
+               name="disabled-radio"
+               value="option2"
+               label="옵션 2"
+             />
+           </div>
+         </div>
+       </section>
 
       <!-- 스테퍼 섹션 -->
       <section class="showcase-section">
@@ -333,13 +278,12 @@
       <section class="showcase-section">
         <h2 class="section-title">Modal & Auth Grid</h2>
         <div class="button-grid">
-          <BaseButton @click="openPopup('auth')">간편인증 팝업 열기</BaseButton>
-          <BaseButton @click="openPopup('demoSmall')">Small</BaseButton>
-          <BaseButton @click="openPopup('demoMedium')">Medium</BaseButton>
-          <BaseButton @click="openPopup('demoLarge')">Large</BaseButton>
-          <BaseButton @click="openFindPopup">아이디/비밀번호 찾기</BaseButton>
-        </div>
-      </section>
+          <BaseButton @click="openAuthModal('auth')">간편인증 팝업</BaseButton>
+           <BaseButton @click="openFindPopup">아이디/비밀번호 찾기</BaseButton>
+           <BaseButton @click="openPopupWindow('demoMedium')">새 창 팝업 (Medium)</BaseButton>
+           <BaseButton @click="openPopupWindow('demoLarge')">새 창 팝업 (Large)</BaseButton>
+         </div>
+       </section>
 
       <!-- 완성된 폼 예시 -->
       <section class="showcase-section">
@@ -492,43 +436,6 @@ import BaseStepIndicator from './BaseStepIndicator.vue'
 import { popupConfigs } from './popupConfig'
 import BasePopup from './BasePopup.vue'
 import AuthModalContent from './AuthModalContent.vue'
-import BaseTab from './BaseTab.vue'
-
-const state = reactive({
-  activeTab1: 0,
-  activeTab2: 0,
-  activeTab3: 0,
-  tabList1: [
-    { label: '아이디 찾기' },
-    { label: '비밀번호 찾기' },
-  ],
-  tabList2: [
-    { label: '홈', icon: 'icon-home' },
-    { label: '프로필', icon: 'icon-user' },
-    { label: '설정', icon: 'icon-settings' },
-  ],
-  tabList3: [
-    { label: '전체' },
-    { label: '진행중' },
-    { label: '완료' },
-  ],
-});
-
-const handleTabChange = (index) => {
-  console.log('탭 변경:', index);
-};
-
-// popup window bridge
-const openPopup = (key = 'auth') => {
-  // open as new window for certain keys, internal popup for others
-  if (key === 'auth' || key === 'demoSmall') {
-    // open internal BasePopup for quicker dev flow
-    activeModalKey.value = key
-    isAuthModalOpen.value = true
-  } else {
-    openPopupWindow(key)
-  }
-}
 
 const handlePopupMessage = (e) => {
   if (!e || !e.data) return
@@ -659,8 +566,7 @@ const handleSubmit = () => {
 </script>
 
 <style lang="scss" scoped>
-@import '@/assets/styles/variables';
-@import '@/assets/styles/mixins';
+@use '@/assets/styles/mixins' as *;
 
 .publishing-showcase {
   min-height: 100vh;
@@ -818,16 +724,38 @@ const handleSubmit = () => {
   @include desktop {
     gap: $spacing-lg;
   }
+}
 
-  .checkbox-group,
-  .radio-group {
-    display: grid;
-    gap: $spacing-sm;
+/* Checkbox & Radio Lists */
+.checkbox-list,
+.radio-list {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-sm;
 
-    @include desktop {
-      grid-template-columns: repeat(2, 1fr);
-      gap: $spacing-md;
-    }
+  @include desktop {
+    gap: $spacing-md;
+  }
+}
+
+.checkbox-list--grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: $spacing-sm;
+
+  @include desktop {
+    grid-template-columns: repeat(2, 1fr);
+    gap: $spacing-md;
+  }
+}
+
+.radio-list--horizontal {
+  flex-direction: row;
+  flex-wrap: wrap;
+  gap: $spacing-md;
+
+  @include desktop {
+    gap: $spacing-lg;
   }
 }
 

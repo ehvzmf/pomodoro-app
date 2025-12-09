@@ -98,8 +98,7 @@ const closeModal = () => emit('close')
 </script>
 
 <style scoped lang="scss">
-@import '@/assets/styles/variables';
-@import '@/assets/styles/mixins';
+@use '@/assets/styles/mixins' as *;
 
 .auth-popup {
   display: flex;

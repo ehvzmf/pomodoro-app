@@ -109,8 +109,7 @@ const handleFocus = (e) => {
 </script>
 
 <style lang="scss" scoped>
-@import '@/assets/styles/variables';
-@import '@/assets/styles/mixins';
+@use '@/assets/styles/mixins' as *;
 
 .input-wrapper {
   width: 100%;

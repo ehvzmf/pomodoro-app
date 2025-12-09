@@ -20,8 +20,7 @@ const methods = [
 </script>
 
 <style scoped lang="scss">
-@import '@/assets/styles/variables';
-@import '@/assets/styles/mixins';
+@use '@/assets/styles/mixins' as *;
 
 .auth-grid-modal {
   display: grid;

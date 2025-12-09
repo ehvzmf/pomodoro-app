@@ -83,8 +83,7 @@ const handleChange = (e) => {
 </script>
 
 <style lang="scss" scoped>
-@import '@/assets/styles/variables';
-@import '@/assets/styles/mixins';
+@use '@/assets/styles/mixins' as *;
 
 .radio-wrapper {
   display: inline-block;

@@ -54,8 +54,7 @@ const onConfirm = () => { emit('confirm', { tab: activeTab.value, data: { ...for
 </script>
 
 <style scoped lang="scss">
-@import '@/assets/styles/variables';
-@import '@/assets/styles/mixins';
+@use '@/assets/styles/mixins' as *;
 
 .auth-body { display:flex; flex-direction:column; gap:$spacing-md }
 .tabs { display:flex; gap:$spacing-xs }

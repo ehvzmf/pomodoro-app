@@ -75,8 +75,7 @@ const handleEscape = (e) => {
 </script>
 
 <style lang="scss" scoped>
-@import '@/assets/styles/variables';
-@import '@/assets/styles/mixins';
+@use '@/assets/styles/mixins' as *;
 
 .modal-overlay {
   position: fixed;

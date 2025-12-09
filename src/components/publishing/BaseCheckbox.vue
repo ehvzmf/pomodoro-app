@@ -78,8 +78,7 @@ const handleChange = (e) => {
 </script>
 
 <style lang="scss" scoped>
-@import '@/assets/styles/variables';
-@import '@/assets/styles/mixins';
+@use '@/assets/styles/mixins' as *;
 
 .checkbox-wrapper {
   display: inline-block;
